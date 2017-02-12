@@ -9,5 +9,6 @@
 	<classpathentry kind="lib" path="/home/champ/workspace/College/jna-4.2.2.jar"/>
 	<classpathentry kind="lib" path="/home/champ/workspace/College/jna-platform-4.2.2.jar"/>
 	<classpathentry kind="lib" path="/home/champ/workspace/College/jl1.0.1.jar"/>
+	<classpathentry kind="lib" path="/home/champ/workspace/College/tika-app-1.14.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

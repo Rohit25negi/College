@@ -118,48 +118,7 @@ public class Frontend extends JFrame implements ActionListener {
 	}
 
 	void showMusic() {
-		rightp.removeAll();
-		JLabel directory = new JLabel("Select Music directory");
-		directory.setBounds(30, 10, 300, 30);
-		JButton select = new JButton("select");
-		select.setBounds(100, 40, 200, 30);
-		JFrame fram = this;
-		select.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				JFileChooser chooser = new JFileChooser();
-				chooser.setDialogTitle("select the music directory");
-				chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-
-				chooser.showOpenDialog(fram);
-				File f = chooser.getSelectedFile();
-				if (f != null) {
-					directory.setText(f.toString());
-					MusicDetails music = new MusicDetails(f.toString());
-
-					String list[] = f.list();
-					String[] header = { "song", "type" };
-					String[][] songs = new String[list.length][2];
-
-					for (int i = 0; i < list.length; i++) {
-						songs[i][0] = list[i];
-						songs[i][1] = music.determineType(list[i]);
-						
-					}
-					DefaultTableModel model = new DefaultTableModel(songs, header);
-
-					JTable table = new JTable(model);
-					table.setBounds(50, 200,200,300);
-					JScrollPane js = new JScrollPane(table);
-					js.setVisible(true);
-					rightp.add(js,BorderLayout.PAGE_END);
-					
-				}
-			}
-		});
-
-		rightp.add(select);
-		rightp.add(directory);
-		rightp.setLayout(new BorderLayout());
+		
 
 	}
 	JTable content;
