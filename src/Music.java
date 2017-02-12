@@ -1,6 +1,5 @@
 import javazoom.jl.player.Player;
 import javazoom.jl.player.advanced.AdvancedPlayer;
-
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
@@ -11,15 +10,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.util.TreeMap;
-
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
-
 import java.awt.event.*;
-
-import com.sun.media.ui.PlayerWindow;
-import com.sun.media.BasicPlayer;
 
 public class Music extends JFrame implements ActionListener {
 	JButton play, pause, next, previous, stop, selectList;
@@ -298,112 +292,8 @@ class MusicDetails {
 	}
 
 	String[] createPlaylist(int n) {
-		int sad = 0, romantic = 0, rock = 0, other = 0;
-		try {
-			FileInputStream fin = new FileInputStream("record.txt");
-			BufferedReader in = new BufferedReader(new InputStreamReader(fin));
-			String type;
-
-			while ((type = in.readLine()) != null) {
-				if (type.split(" ")[0].equals("sad"))
-					sad = Integer.parseInt(type.split(" ")[1]);
-				else if (type.split(" ")[0].equals("romantic"))
-					romantic = Integer.parseInt(type.split(" ")[1]);
-				else if (type.split(" ")[0].equals("rock"))
-					rock = Integer.parseInt(type.split(" ")[1]);
-				else
-					other = Integer.parseInt(type.split(" ")[1]);
-			}
-
-			in.close();
-			fin.close();
-
-		} catch (Exception e) {
-			return null;
-		}
-
-		// music selector
-		int total = sad + romantic + rock + other;
-		int n_sad = (int) ((sad / (float) total) * n);
-		int n_romantic = (int) ((romantic / (float) total) * n);
-		int n_rock = (int) ((rock / (float) total) * n);
-		int n_other = (int) ((other / (float) total) * n);
-		String A[] = new String[n];
-		int g = this.sad.size(), h;
-
-		for (int i = 0; i < n_sad; i++) {
-			OUTER: while (true) {
-				h = (int) Math.random() % g;
-				for (int j = 0; j < i; j++) {
-					if (!this.sad.get(h).equals(A[j])) {
-						A[i] = this.sad.get(h);
-						break OUTER;
-					}
-				}
-			}
-
-		}
-		int xx = n_sad;
-		g = this.romantic.size();
-		for (int i = 0; i < n_romantic; i++) {
-			OUTER: while (true) {
-				h = (int) Math.random() % g;
-				for (int j = xx; j < i + xx; j++) {
-					if (!this.romantic.get(h).equals(A[j])) {
-						A[i + xx] = this.romantic.get(h);
-						break OUTER;
-					}
-				}
-			}
-
-		}
-
-		xx += n_romantic;
-		g = this.romantic.size();
-		for (int i = 0; i < n_rock; i++) {
-			OUTER: while (true) {
-				h = (int) Math.random() % g;
-				for (int j = xx; j < i + xx; j++) {
-					if (!this.rock.get(h).equals(A[j])) {
-						A[i + xx] = this.rock.get(h);
-						break OUTER;
-					}
-				}
-			}
-
-		}
-
-		xx += n_romantic;
-		g = this.romantic.size();
-		for (int i = 0; i < n_rock; i++) {
-			OUTER: while (true) {
-				h = (int) Math.random() % g;
-				for (int j = xx; j < i + xx; j++) {
-					if (!this.rock.get(h).equals(A[j])) {
-						A[i + xx] = this.rock.get(h);
-						break OUTER;
-					}
-				}
-			}
-
-		}
-
-		xx += n_rock;
-		g = this.rock.size();
-		for (int i = 0; i < n_other; i++) {
-			OUTER: while (true) {
-				h = (int) Math.random() % g;
-				for (int j = xx; j < i + xx; j++) {
-					if (!this.other.get(h).equals(A[j])) {
-						A[i + xx] = this.other.get(h);
-						break OUTER;
-					}
-				}
-			}
-		}
-		// music selector ends
-
-		return A;
+		
+		return null;
 	}
 
 }
