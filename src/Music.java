@@ -77,6 +77,7 @@ public class Music extends JFrame implements ActionListener {
 			stop();
 		} else if (obj == selectList) {
 			selectFiles();
+			storeMusicDetails();
 			if(files!=null)
 			{
 				current=0;
@@ -91,7 +92,11 @@ public class Music extends JFrame implements ActionListener {
 		}
 
 	}
-
+	public boolean storeMusicDetails()
+	{
+		
+		return true;
+	}
 	public void selectFiles() {
 		String list[] = { "mp3", "wav"};
 		JFileChooser filechooser = new JFileChooser();
@@ -99,7 +104,15 @@ public class Music extends JFrame implements ActionListener {
 		filechooser.setFileFilter(new FileNameExtensionFilter("music file", list));
 		filechooser.showOpenDialog(this);
 		files = filechooser.getSelectedFiles();
+		File f=files[0];
+		try{
+			FileInputStream fin=new FileInputStream(f);
+			byte A[]=new byte[128];
 
+		}catch(Exception e)
+		{
+
+		}
 	}
 
 	public void play(){
@@ -188,8 +201,8 @@ public class Music extends JFrame implements ActionListener {
 	}
 	public static void main(String ar[]) throws Exception {
 
-		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+	try {
+		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (Exception e) {
 		}
 		new Music();
