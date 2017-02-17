@@ -1,5 +1,6 @@
 import javazoom.jl.player.Player;
 import javazoom.jl.player.advanced.AdvancedPlayer;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
@@ -12,7 +13,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.TreeMap;
+
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -20,6 +23,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.FileDialog;
 import java.awt.event.*;
 import java.util.Set;
+
 import org.apache.tika.exception.TikaException;
 import org.apache.tika.metadata.Metadata;
 import org.apache.tika.parser.AutoDetectParser;
@@ -27,6 +31,7 @@ import org.apache.tika.parser.ParseContext;
 import org.apache.tika.parser.Parser;
 import org.apache.tika.parser.mp3.Mp3Parser;
 import org.apache.tika.sax.BodyContentHandler;
+
 import java.util.Random;
 
 public class Music extends JFrame implements ActionListener {
@@ -117,9 +122,13 @@ public class Music extends JFrame implements ActionListener {
 			directoryOpr();
 		} else if (obj == createPlayList) {
 			Integer size = Integer.parseInt(JOptionPane.showInputDialog("enter the size of playlist"));
-
+			
 			if (size != null) {
 				createPlayList(size.intValue());
+				if (files != null) {
+					current = 0;
+					play();
+				}
 
 			}
 		}
@@ -172,10 +181,60 @@ public class Music extends JFrame implements ActionListener {
 				System.out.println(key+":"+percent.get(key)+":"+total+":"+count);
 				while (count-- != 0 && !songs.isEmpty())
 					tempFiles.add(new File(songs.remove(random.nextInt(songs.size()))));
-
+					
 			}
-			System.out.println(tempFiles);
-
+			int cursize=tempFiles.size();
+			
+			keys=percent.keySet();
+			Collection<Integer>values=percent.values();
+			String keyList[]=new String[keys.size()];
+			int valueList[]=new int[keys.size()];
+			
+			int i=0;
+			for(String xx :keys)
+			{
+				keyList[i++]=xx;
+			}
+			i=0;
+			for(int xx :values)
+			{
+				valueList[i++]=xx;
+			}
+				
+			for(int j=0;j<keyList.length-1;j++)
+			{	int pos=j;
+				int max=valueList[j];
+				for(int k=j+1;k<keyList.length;k++)
+				{
+					if(valueList[k]>max){
+						pos=k;
+						max=valueList[k];
+					}
+					
+				}
+				valueList[pos]=valueList[j];
+				valueList[j]=max;
+				
+				String temp=keyList[pos];
+				keyList[pos]=keyList[j];
+				keyList[j]=temp;				
+			}
+			
+			OUTER:for(i=0;i<keyList.length;i++)
+			{
+				songs=musicList.get(keyList[i]);
+				
+				while(!songs.isEmpty())
+				{	if(++cursize>size)
+					break OUTER;
+					tempFiles.add(new File(songs.remove(random.nextInt(songs.size()))));
+					
+				}
+			}
+			System.out.println(tempFiles.size());
+			this.files=new File[tempFiles.size()];
+			this.files=tempFiles.toArray(this.files);
+		
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -313,37 +372,44 @@ public class Music extends JFrame implements ActionListener {
 			else
 				total_length = fin.available();
 			String str = files[current].toString();
-			name.setText(str.substring(str.lastIndexOf("\\") + 1));
+			name.setText(files[current].getName());
 
 			tracker.setMinimum(0);
 			tracker.setMaximum((int) (total_length));
-			new Thread() {
-				public void run() {
-					while (!player.isComplete())
-						try {
-							tracker.setValue((int) (total_length - fin.available()));
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-
-						}
-				}
-			}.start();
-			new Thread(new Runnable() {
+//			Thread x=new Thread() {
+//				public void run() {
+//					player.
+//					while (!player.isComplete())
+//						try {
+//							tracker.setValue((int) (total_length - fin.available()));
+//						} catch (IOException e) {
+//							// TODO Auto-generated catch block
+//							e.printStackTrace();
+//						}
+//				}
+//			};
+//			x.setPriority(1);
+//			x.start();
+	Thread t=		new Thread(new Runnable() {
 				public void run() {
 					try {
 
 						player.play();
+						System.out.println("called");
 						if (player.isComplete()) {
+							
 							next();
 						}
 					} catch (Exception e) {
-
+						e.printStackTrace();
 					}
 				}
-			}).start();
+			});
+	t.setPriority(10);
+	t.start();
 
 		} catch (Exception e) {
-
+			e.printStackTrace();
 		}
 	}
 

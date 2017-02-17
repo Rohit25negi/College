@@ -1,4 +1,3 @@
-
 import edu.cmu.sphinx.frontend.util.Microphone;
 import edu.cmu.sphinx.recognizer.Recognizer;
 import edu.cmu.sphinx.result.Result;
@@ -35,10 +34,11 @@ public class Main {
 
 					ConfigurationManager cm = new ConfigurationManager(url);
 
-					Recognizer recognizer = (Recognizer) cm.lookup("recognizer");
-					Microphone microphone = (Microphone) cm.lookup("microphone");
+					Recognizer recognizer = (Recognizer) cm
+							.lookup("recognizer");
+					Microphone microphone = (Microphone) cm
+							.lookup("microphone");
 
-					
 					recognizer.allocate();
 
 					if (microphone.startRecording()) {
@@ -46,15 +46,18 @@ public class Main {
 						System.out.println("Say something:");
 
 						while (true) {
-							System.out.println("Start speaking. Press Ctrl-C to quit.\n");
+							System.out
+									.println("Start speaking. Press Ctrl-C to quit.\n");
 
 							Result result = recognizer.recognize();
 
 							if (result != null && Main.On) {
-								String resultText = result.getBestFinalResultNoFiller();
+								String resultText = result
+										.getBestFinalResultNoFiller();
 								if (resultText.isEmpty())
 									continue;
-								System.out.println("You said: " + resultText + "\n");
+								System.out.println("You said: " + resultText
+										+ "\n");
 								// Runtime.getRuntime().exec("wscript.exe
 								// ./say.vbs \"On It\"");
 								switch (resultText) {
@@ -65,39 +68,47 @@ public class Main {
 									Test.minimizeAll();
 									break;
 								case "show processes":
-											maincontrol.showProcesses();
-												maincontrol.repaint();break;
+									maincontrol.showProcesses();
+									maincontrol.repaint();
+									break;
 								case "close":
-											try{Test.closeProcess((String) maincontrol.content
-											.getValueAt(maincontrol.content.getSelectedRow(), 0));
-											maincontrol.showProcesses();
-											maincontrol.repaint();
-											}
-											catch(Exception e)
-											{
-												
-											}
+									try {
+										Test.closeProcess();
+										
+									} catch (Exception e) {
+
+									}
 									break;
 								case "focus":
-										try{Test.toForeground((String) maincontrol.content
-											.getValueAt(maincontrol.content.getSelectedRow(), 0));}catch(Exception e)
-										{
-												
-										}
+									try {
+										Test.toForeground((String) maincontrol.content
+												.getValueAt(maincontrol.content
+														.getSelectedRow(), 0));
+									} catch (Exception e) {
+
+									}
 									break;
 								case "down":
-										try{int n = maincontrol.content.getSelectedRow();
-									maincontrol.content.setRowSelectionInterval(n + 1, n + 1);}catch(Exception e)
-										{
-										
-										}
+									try {
+										int n = maincontrol.content
+												.getSelectedRow();
+										maincontrol.content
+												.setRowSelectionInterval(n + 1,
+														n + 1);
+									} catch (Exception e) {
+
+									}
 									break;
-								case "up":try{
-										int n = maincontrol.content.getSelectedRow();
-									maincontrol.content.setRowSelectionInterval(n - 1, n - 1);}catch(Exception e)
-								{
-										
-								}
+								case "up":
+									try {
+										int n = maincontrol.content
+												.getSelectedRow();
+										maincontrol.content
+												.setRowSelectionInterval(n - 1,
+														n - 1);
+									} catch (Exception e) {
+
+									}
 									break;
 								case "open paint":
 									try {
@@ -108,8 +119,12 @@ public class Main {
 									break;
 								case "open sublime":
 									try {
-										ProcessBuilder pb = new ProcessBuilder("cmd.exe", "/c",
-												new File("application/" + "sublime" + ".LNK").getAbsolutePath());
+										ProcessBuilder pb = new ProcessBuilder(
+												"cmd.exe", "/c", new File(
+														"application/"
+																+ "sublime"
+																+ ".LNK")
+														.getAbsolutePath());
 										pb.start();
 									} catch (Exception e) {
 
@@ -143,12 +158,10 @@ public class Main {
 		}).start();
 
 		maincontrol = new Frontend();
-		 try 
-		    { 
-		    	UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		    } 
-		    catch(Exception e){ 
-		    }
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (Exception e) {
+		}
 
 	}
 }

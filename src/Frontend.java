@@ -1,4 +1,6 @@
 import java.awt.BorderLayout;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.awt.Button;
 import java.awt.Color;
 import java.awt.FileDialog;
@@ -6,8 +8,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -23,31 +28,44 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
-
+import org.jsoup.Jsoup;
+import org.jsoup.helper.Validate;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import com.sun.jna.platform.win32.WinDef.HWND;
 
+import edu.stanford.nlp.ling.Sentence;
+import edu.stanford.nlp.ling.TaggedWord;
+import edu.stanford.nlp.ling.HasWord;
+import edu.stanford.nlp.tagger.maxent.MaxentTagger;
 public class Frontend extends JFrame implements ActionListener {
-	JButton button1, button2, button3;
+	JButton button1, button2, button3, button4,simplify;
 	JButton On, Off;
 	JPanel leftp;
 	JPanel rightp;
+	JTextArea untagged, tagged;
 
 	public Frontend() {
 		super("ABDA");
 		leftp = new JPanel();
 		rightp = new JPanel();
 
-		button1 = new JButton("Click");
-		button1.setBounds(50, 50, 100, 30);
+		button1 = new JButton("click");
+		button1.setBounds(50, 150, 100, 30);
 		button1.addActionListener(this);
 
-		button2 = new JButton("Music");
-		button2.setBounds(50, 100, 100, 30);
+		button2 = new JButton("Text simplifier");
+		button2.setBounds(50, 130, 100, 30);
 		button2.addActionListener(this);
 
 		button3 = new JButton("processes");
-		button3.setBounds(50, 150, 100, 30);
+		button3.setBounds(50, 50, 100, 30);
 		button3.addActionListener(this);
+
+		button4 = new JButton("memory consumptions");
+		button4.setBounds(50, 90, 100, 30);
+		button4.addActionListener(this);
 
 		On = new JButton("ON");
 		On.setBounds(30, 400, 70, 30);
@@ -66,9 +84,10 @@ public class Frontend extends JFrame implements ActionListener {
 		});
 
 		leftp.setBounds(0, 0, 190, 500);
-		leftp.add(button1);
+		// leftp.add(button1);
 		leftp.add(button2);
 		leftp.add(button3);
+		leftp.add(button4);
 		leftp.add(On);
 		leftp.add(Off);
 		leftp.setLayout(null);
@@ -100,8 +119,9 @@ public class Frontend extends JFrame implements ActionListener {
 				if (!f2.exists())
 					f2.mkdir();
 				try {
-					Runtime.getRuntime()
-							.exec("wscript shortcut.vbs \"" + id.getText() + ".LNK\" \"" + prog_path.getText() + "\"");
+					Runtime.getRuntime().exec(
+							"wscript shortcut.vbs \"" + id.getText()
+									+ ".LNK\" \"" + prog_path.getText() + "\"");
 
 				} catch (Exception exc) {
 
@@ -112,16 +132,113 @@ public class Frontend extends JFrame implements ActionListener {
 			showProcesses();
 			rightp.repaint();
 		} else if (e.getSource() == button2) {
-			showMusic();
+			
+			untagged=new JTextArea();
+			untagged.setBounds(30,30,400,100);
+			rightp.add(untagged);
+			
+			tagged=new JTextArea();
+			tagged.setBounds(30,150,400,100);
+			rightp.add(tagged);
 			rightp.repaint();
+			simplify=new JButton("Simplify");
+			simplify.setBounds(10,280,200,40);
+			rightp.add(simplify);
+			simplify.addActionListener(this);
+			rightp.add(simplify);
+			rightp.setLayout(null);
+			
+			
+		} else if (e.getSource() == button4) {
+			showMemoryUseage();
+			rightp.repaint();
+		}else if(e.getSource()==simplify)
+		{
+			String untaggedString=untagged.getText().trim();
+			if(!untaggedString.isEmpty())
+			{	try{
+				
+			
+				MaxentTagger tagger = new MaxentTagger("models/left3words-wsj-0-18.tagger");
+				String sentences = tagger.tagString(untaggedString);
+				String x[]=sentences.split(" ");
+				for(int i=0;i<x.length;i++)
+				{
+					String url = "http://www.google.com/search?q="+x[i];
+
+					URL obj = new URL(url);
+					HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+					// optional default is GET
+					con.setRequestMethod("GET");
+
+					//add request header
+					con.setRequestProperty("User-Agent", "Mozilla/5.0");
+				
+
+					BufferedReader in=new BufferedReader(new InputStreamReader(con.getInputStream()));
+					StringBuffer str=new StringBuffer("");
+					String xx;
+					while((xx=in.readLine())!=null)
+						str.append(xx);
+					System.out.println(str);
+					Document doc=Jsoup.parse(str.toString());
+					Elements elem=doc.select("table");
+					System.out.println(str);
+					
+				}
+				tagged.setText(sentences);
+			}catch(Exception ex)
+			{
+				ex.printStackTrace();
+			}
+			}
+			
 		}
 	}
 
 	void showMusic() {
-		
+
+		// new Music();
+	}
+
+	JTable content;
+
+	void showMemoryUseage() {
+		try {
+			Process p = Runtime.getRuntime().exec("tasklist.exe /nh");
+			BufferedReader in = new BufferedReader(new InputStreamReader(
+					p.getInputStream()));
+			String str;
+			String column[] = { "Service", "Memory Occupied" };
+			ArrayList<String[]> list = new ArrayList();
+
+			while ((str = in.readLine()) != null) {
+				str = str.replaceAll(" +", " ");
+				String s[] = str.split(" ");
+				if (s.length >= 6)
+					list.add(new String[] { s[0],
+							s[s.length - 2] + " " + s[s.length - 1] });
+			}
+			String list2[][] = new String[list.size()][2];
+			for (int i = 0; i < list2.length; i++) {
+				list2[i][0] = list.get(i)[0];
+				list2[i][1] = list.get(i)[1];
+				System.out.println(list2[i][0] + ":" + list2[i][1]);
+			}
+			content = new JTable(list2, column);
+			content.setBounds(30, 40, 200, 300);
+			content.setRowSelectionInterval(0, 0);
+			JScrollPane sp = new JScrollPane(content);
+			
+
+			rightp.setLayout(null);
+		} catch (Exception e) {
+			System.out.println(e);
+		}
 
 	}
-	JTable content;
+
 	void showProcesses() {
 		rightp.removeAll();
 		ArrayList<String> processList = Test.processList();
@@ -136,32 +253,20 @@ public class Frontend extends JFrame implements ActionListener {
 		content.setBounds(30, 40, 200, 300);
 		content.setRowSelectionInterval(0, 0);
 		JScrollPane sp = new JScrollPane(content);
-		
+
 		content.addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-					String name = (String) content.getValueAt(content.getSelectedRow(), 0);
+					String name = (String) content.getValueAt(
+							content.getSelectedRow(), 0);
 					// content.remove(content.getSelectedRow());
 					Test.toForeground(name);
 				}
 			}
 		});
-		
-		
-		rightp.add(content);
-		JButton close = new JButton("close");
-		close.setBounds(50, 350, 100, 30);
-		close.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				int num = content.getSelectedRow();
-				String name = (String) content.getValueAt(num, 0);
-				Test.closeProcess(name);
-				showProcesses();
-				repaint();
 
-			}
-		});
-		rightp.add(close);
+		rightp.add(content);
+
 		rightp.setLayout(null);
 	}
 }
