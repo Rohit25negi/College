@@ -155,44 +155,7 @@ public class Frontend extends JFrame implements ActionListener {
 		}else if(e.getSource()==simplify)
 		{
 			String untaggedString=untagged.getText().trim();
-			if(!untaggedString.isEmpty())
-			{	try{
-				
 			
-				MaxentTagger tagger = new MaxentTagger("models/left3words-wsj-0-18.tagger");
-				String sentences = tagger.tagString(untaggedString);
-				String x[]=sentences.split(" ");
-				for(int i=0;i<x.length;i++)
-				{
-					String url = "http://www.google.com/search?q="+x[i];
-
-					URL obj = new URL(url);
-					HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-
-					// optional default is GET
-					con.setRequestMethod("GET");
-
-					//add request header
-					con.setRequestProperty("User-Agent", "Mozilla/5.0");
-				
-
-					BufferedReader in=new BufferedReader(new InputStreamReader(con.getInputStream()));
-					StringBuffer str=new StringBuffer("");
-					String xx;
-					while((xx=in.readLine())!=null)
-						str.append(xx);
-					System.out.println(str);
-					Document doc=Jsoup.parse(str.toString());
-					Elements elem=doc.select("table");
-					System.out.println(str);
-					
-				}
-				tagged.setText(sentences);
-			}catch(Exception ex)
-			{
-				ex.printStackTrace();
-			}
-			}
 			
 		}
 	}
