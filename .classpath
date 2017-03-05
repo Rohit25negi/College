@@ -2,16 +2,17 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="C:/Users/Sandesh Timilsina/workspace/College/jl1.0.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Sandesh Timilsina/workspace/College/jna-4.2.2.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Sandesh Timilsina/workspace/College/jna-platform-4.2.2.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Sandesh Timilsina/workspace/College/jsapi.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Sandesh Timilsina/workspace/College/sphinx4.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Sandesh Timilsina/workspace/College/TIDIGITS_8gau_13dCep_16k_40mel_130Hz_6800Hz.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Sandesh Timilsina/workspace/College/tika-app-1.14.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Sandesh Timilsina/workspace/College/WSJ_8gau_13dCep_16k_40mel_130Hz_6800Hz.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Sandesh Timilsina/workspace/College/stanford-postagger.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Sandesh Timilsina/workspace/College/stanford-postagger-2011-04-20.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Sandesh Timilsina/workspace/College/jsoup-1.10.2.jar"/>
+	<classpathentry kind="lib" path="/home/champ/workspace/College/jl1.0.1.jar"/>
+	<classpathentry kind="lib" path="/home/champ/workspace/College/jlayer1.0.1.zip"/>
+	<classpathentry kind="lib" path="/home/champ/workspace/College/jna-4.2.2.jar"/>
+	<classpathentry kind="lib" path="/home/champ/workspace/College/jna-platform-4.2.2.jar"/>
+	<classpathentry kind="lib" path="/home/champ/workspace/College/jsapi.jar"/>
+	<classpathentry kind="lib" path="/home/champ/workspace/College/jsoup-1.10.2.jar"/>
+	<classpathentry kind="lib" path="/home/champ/workspace/College/sphinx4.jar"/>
+	<classpathentry kind="lib" path="/home/champ/workspace/College/stanford-postagger.jar"/>
+	<classpathentry kind="lib" path="/home/champ/workspace/College/stanford-postagger-2011-04-20.jar"/>
+	<classpathentry kind="lib" path="/home/champ/workspace/College/TIDIGITS_8gau_13dCep_16k_40mel_130Hz_6800Hz.jar"/>
+	<classpathentry kind="lib" path="/home/champ/workspace/College/tika-app-1.14.jar"/>
+	<classpathentry kind="lib" path="/home/champ/workspace/College/WSJ_8gau_13dCep_16k_40mel_130Hz_6800Hz.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
