@@ -1,3 +1,12 @@
+/**
+ * Author: Rohit Negi CSE-B 4th year. Roll No: 130101144
+ * email: rohit25.negi@gmail.com
+ * This is file is part of the module called automatic playlist generator. It will be able to create
+ * the playlist depending on the user's listening habits
+ * 
+ * 
+ * JZoom Library is used to make the music player
+ */
 import javazoom.jl.player.Player;
 import javazoom.jl.player.advanced.AdvancedPlayer;
 
