@@ -152,7 +152,7 @@ public class Frontend extends JFrame implements ActionListener {
 		} else if (e.getSource() == button4) {
 			showMemoryUseage();
 			rightp.repaint();
-		}else if(e.getSource()==simplify)	// When user wants to simplify the Text
+		}else if(e.getSource()==simplify)	//author Rohit Negi, When user wants to simplify the Text
 		{
 			String untaggedString=untagged.getText().trim();	
 			Dictionary dic=new Dictionary(untaggedString);// Creating Dictionary Object
@@ -161,14 +161,14 @@ public class Frontend extends JFrame implements ActionListener {
 		}
 	}
 
-	void showMusic() {	//	By Rohit Negi, Moto is to show the selected music playlist
+	void showMusic() {	//	author Rohit Negi, Moto is to show the selected music playlist
 
 		// new Music();
 	}
 
 	JTable content;
 
-	void showMemoryUseage() {	//Showing the memory usage of every process using the window's tasklist.exe program
+	void showMemoryUseage() {	//author Rohit Negi, Showing the memory usage of every process using the window's tasklist.exe program
 		try {
 			Process p = Runtime.getRuntime().exec("tasklist.exe /nh");
 			BufferedReader in = new BufferedReader(new InputStreamReader(
