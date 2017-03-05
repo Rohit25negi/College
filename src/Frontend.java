@@ -44,7 +44,7 @@ public class Frontend extends JFrame implements ActionListener {
 	JButton On, Off;
 	JPanel leftp;
 	JPanel rightp;
-	JTextArea untagged, tagged;
+	JTextArea untagged, tagged;	//untagged area contains input Text, Tagged Area will contained output Text
 
 	public Frontend() {
 		super("ABDA");
@@ -152,22 +152,23 @@ public class Frontend extends JFrame implements ActionListener {
 		} else if (e.getSource() == button4) {
 			showMemoryUseage();
 			rightp.repaint();
-		}else if(e.getSource()==simplify)
+		}else if(e.getSource()==simplify)	// When user wants to simplify the Text
 		{
-			String untaggedString=untagged.getText().trim();
-			
+			String untaggedString=untagged.getText().trim();	
+			Dictionary dic=new Dictionary(untaggedString);// Creating Dictionary Object
+			dic.tagText();	//Tagging the text
 			
 		}
 	}
 
-	void showMusic() {
+	void showMusic() {	//	By Rohit Negi, Moto is to show the selected music playlist
 
 		// new Music();
 	}
 
 	JTable content;
 
-	void showMemoryUseage() {
+	void showMemoryUseage() {	//Showing the memory usage of every process using the window's tasklist.exe program
 		try {
 			Process p = Runtime.getRuntime().exec("tasklist.exe /nh");
 			BufferedReader in = new BufferedReader(new InputStreamReader(

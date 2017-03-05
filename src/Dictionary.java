@@ -23,8 +23,9 @@ public Dictionary(String st)
 {
 	SimpleText=st;
 }
-public String tagText(String untaggedString)	//to perform the POS Tagging on the input text using Stanford tagger
-{	String sentences; 
+public String tagText()	//to perform the POS Tagging on the input text using Stanford tagger
+{	String sentences;
+	String untaggedString=SimpleText;
 	if(!untaggedString.isEmpty())
 	{	try{
 		
