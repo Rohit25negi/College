@@ -44,34 +44,10 @@ public String tagText()	//to perform the POS Tagging on the input text using Sta
 	else return null;
 }
 public void simplify() throws Exception
-{	String sentences=this.TaggedText;
-	String x[]=sentences.split(" ");	// splitting by space to get each word
-	for(int i=0;i<x.length;i++)
-	{
-		String url = "http://www.google.com/search?q="+x[i];		
-
-		URL obj = new URL(url);
-		HttpURLConnection con = (HttpURLConnection) obj.openConnection();	
-
-		// optional default is GET
-		con.setRequestMethod("GET");	//sending get request to google
-
-		//add request header
-		con.setRequestProperty("User-Agent", "Mozilla/5.0");
+{	
+}
+static void addWord()
+{
 	
-
-		BufferedReader in=new BufferedReader(new InputStreamReader(con.getInputStream()));	//getting inputStream from the connection
-		StringBuffer str=new StringBuffer("");
-		String xx;
-		while((xx=in.readLine())!=null)
-			str.append(xx);
-		/*
-		 * Trying to fetch the meaning from html body*/;
-		System.out.println(str);
-		Document doc=Jsoup.parse(str.toString());
-		Elements elem=doc.select("table");
-		System.out.println(str);
-		
-	}
 }
 }
