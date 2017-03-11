@@ -47,40 +47,50 @@ public class Wordnet {
 				children.add(child);
 			}
 		}
-		boolean caseOne=true;
-		
-		OUTER:for(int i=0;i<parents.size();i++)
-		{
-			ArrayList<String>chill=((ArrayList<String>)((JSONObject)this.wordnet.get(parents.get(i))).get("children"));
-			for(int j=0;j<chill.size();j++)
-			{
-				if(((String)((JSONObject)this.wordnet.get(chill.get(j))).get("pos")).equals(pos))
-				{
-					caseOne=false;
+		String previousChild = null;
+
+		OUTER: for (int i = 0; i < parents.size(); i++) {
+			ArrayList<String> chill = ((ArrayList<String>) ((JSONObject) this.wordnet.get(parents.get(i)))
+					.get("children"));
+			for (int j = 0; j < chill.size(); j++) {
+				if (((String) ((JSONObject) this.wordnet.get(chill.get(j))).get("pos")).equals(pos)) {
+					previousChild = chill.get(j);
 					break OUTER;
 				}
 			}
 		}
-		if(caseOne)
-		{
-			JSONObject jsonObject=new JSONObject();
-			jsonObject.put("pos", pos);
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("pos", pos);
+		jsonObject.put("parents", parents);
+		if (previousChild == null) {
+
 			jsonObject.put("children", children);
-			jsonObject.put("parents", parents);
-			if(parent!=null)
-				((ArrayList<String>)((JSONObject)this.wordnet.get(parent)).get("children")).add(word);
+			
+			if (parent != null)
+				((ArrayList<String>) ((JSONObject) this.wordnet.get(parent)).get("children")).add(word);
+			if (child != null)
+				((ArrayList<String>) ((JSONObject) this.wordnet.get(child)).get("parents")).add(word);
+
+		} else {
+			((ArrayList<String>) ((JSONObject) this.wordnet.get(parent)).get("children")).remove(previousChild);
+			((ArrayList<String>) ((JSONObject) this.wordnet.get(parent)).get("children")).add(word);
+			((ArrayList<String>) ((JSONObject) this.wordnet.get(previousChild)).get("parents")).remove(parent);
+			((ArrayList<String>) ((JSONObject) this.wordnet.get(previousChild)).get("parents")).add(word);
 			if(child!=null)
-				((ArrayList<String>)((JSONObject)this.wordnet.get(child)).get("parents")).add(word);
-			
-		}else
-		{
-			
-		}
+			{
+				String pos1=((String) ((JSONObject) this.wordnet.get(child)).get("pos"));
+				String pos2=((String) ((JSONObject) this.wordnet.get(previousChild)).get("pos"));
+				if(pos1.equals(pos2))
+					children.clear();
+				else
+					((ArrayList<String>) ((JSONObject) this.wordnet.get(child)).get("parents")).add(word);
+			}
+			children.add(previousChild);
+			jsonObject.put("children",children);
+			this.wordnet.put(word,jsonObject);
+		}	
+
 		
-
-		JSONObject values = new JSONObject();
-		values.put("pos", pos);
-
 		return true;
 	}
 
@@ -111,43 +121,7 @@ public class Wordnet {
 			choice = in.nextInt();
 			switch (choice) {
 			case 1:
-				System.out.println("enter the word");
-				String newword = in.next();
-				if (x.wordnet.containsKey(newword))
-					System.out.println("word already exists");
-				else {
-					System.out.println("enter the pos type");
-					String pos = in.next();
-					System.out.println("enter its parent and child");
-					String parent = in.next();
-					String child = in.next();
-					JSONObject values = new JSONObject();
-					ArrayList<String> parents = new ArrayList();
-					ArrayList<String> children = new ArrayList();
-					values.put("pos", pos);
-					if (parent.length() > 1) {
-						parents.add(parent);
-						((ArrayList) ((JSONObject) x.wordnet.get(parent)).get("child")).add(newword);
-
-					}
-					if (child.length() > 1) {
-						children.add(child);
-						((ArrayList) ((JSONObject) x.wordnet.get(child)).get("parent")).add(newword);
-					}
-					values.put("parent", parents);
-					values.put("child", children);
-					x.wordnet.put(newword, values);
-					try {
-						PrintStream wordDB = new PrintStream("Wordnet.json");
-						wordDB.print(x.wordnet.toJSONString());
-						wordDB.close();
-						System.out.println("word added");
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-
-				}
-
+					x.insertWord(in.next(), in.next(),in.next(),in.next());
 				break;
 			case 2:
 				System.out.println("enter the word");
