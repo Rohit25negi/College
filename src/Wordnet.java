@@ -89,9 +89,17 @@ public class Wordnet {
 			jsonObject.put("children",children);
 			this.wordnet.put(word,jsonObject);
 		}	
-
+		try{
+			FileOutputStream fout=new FileOutputStream("Wordnet.json");
+			PrintStream out=new PrintStream(fout);
+			out.print(this.wordnet.toJSONString());
+			return true;
+		}catch(Exception e )
+		{	e.printStackTrace();
+			return false;
+		}
 		
-		return true;
+		
 	}
 
 	public String simplestOf(String word, String pos) {
