@@ -40,11 +40,14 @@ public class Wordnet {
 
 		if (metadata.length > 0) {
 			parent = metadata[0];
-			parents.add(parent);
+			if (parent != null)
+				parents.add(parent);
 
 			if (metadata.length > 1) {
 				child = metadata[1];
-				children.add(child);
+
+				if (child != null)
+					children.add(child);
 			}
 		}
 		String previousChild = null;
@@ -65,7 +68,7 @@ public class Wordnet {
 		if (previousChild == null) {
 
 			jsonObject.put("children", children);
-			
+
 			if (parent != null)
 				((ArrayList<String>) ((JSONObject) this.wordnet.get(parent)).get("children")).add(word);
 			if (child != null)
@@ -76,44 +79,47 @@ public class Wordnet {
 			((ArrayList<String>) ((JSONObject) this.wordnet.get(parent)).get("children")).add(word);
 			((ArrayList<String>) ((JSONObject) this.wordnet.get(previousChild)).get("parents")).remove(parent);
 			((ArrayList<String>) ((JSONObject) this.wordnet.get(previousChild)).get("parents")).add(word);
-			if(child!=null)
-			{
-				String pos1=((String) ((JSONObject) this.wordnet.get(child)).get("pos"));
-				String pos2=((String) ((JSONObject) this.wordnet.get(previousChild)).get("pos"));
-				if(pos1.equals(pos2))
+			if (child != null) {
+				String pos1 = ((String) ((JSONObject) this.wordnet.get(child)).get("pos"));
+				String pos2 = ((String) ((JSONObject) this.wordnet.get(previousChild)).get("pos"));
+				if (pos1.equals(pos2))
 					children.clear();
 				else
 					((ArrayList<String>) ((JSONObject) this.wordnet.get(child)).get("parents")).add(word);
 			}
 			children.add(previousChild);
-			jsonObject.put("children",children);
-			this.wordnet.put(word,jsonObject);
-		}	
-		try{
-			FileOutputStream fout=new FileOutputStream("Wordnet.json");
-			PrintStream out=new PrintStream(fout);
+			jsonObject.put("children", children);
+
+		}
+		this.wordnet.put(word, jsonObject);
+		try {
+			FileOutputStream fout = new FileOutputStream("Wordnet.json");
+			PrintStream out = new PrintStream(fout);
 			out.print(this.wordnet.toJSONString());
 			return true;
-		}catch(Exception e )
-		{	e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
 			return false;
 		}
-		
-		
+
 	}
 
 	public String simplestOf(String word, String pos) {
 		String simplestword = word;
 		while (this.wordnet.get(simplestword) != null
-				&& !((ArrayList) ((JSONObject) this.wordnet.get(simplestword)).get("child")).isEmpty()) {
-			ArrayList<String> childrenOfThis = ((ArrayList) ((JSONObject) this.wordnet.get(simplestword)).get("child"));
-			for (int i = 0; i < childrenOfThis.size(); i++) {
+				&& !((ArrayList) ((JSONObject) this.wordnet.get(simplestword)).get("children")).isEmpty()) {
+			ArrayList<String> childrenOfThis = ((ArrayList) ((JSONObject) this.wordnet.get(simplestword)).get("children"));
+			int i;
+			for (i = 0; i < childrenOfThis.size(); i++) {
 				if (((String) ((JSONObject) this.wordnet.get((String) childrenOfThis.get(i))).get("pos")).equals(pos)) {
 					simplestword = childrenOfThis.get(i);
 					break;
 				}
 			}
+			if(i==childrenOfThis.size())break;
 		}
+		
+		
 		return simplestword;
 	}
 
@@ -129,14 +135,14 @@ public class Wordnet {
 			choice = in.nextInt();
 			switch (choice) {
 			case 1:
-					x.insertWord(in.next(), in.next(),in.next(),in.next());
+				x.insertWord(in.next(), in.next(), in.next(), in.next());
 				break;
 			case 2:
 				System.out.println("enter the word");
 				String simplestword = in.next();
 				System.out.println("enter the POS type");
-				while (!((ArrayList) ((JSONObject) x.wordnet.get(simplestword)).get("child")).isEmpty()) {
-					simplestword = (String) ((ArrayList) ((JSONObject) x.wordnet.get(simplestword)).get("child"))
+				while (!((ArrayList) ((JSONObject) x.wordnet.get(simplestword)).get("children")).isEmpty()) {
+					simplestword = (String) ((ArrayList) ((JSONObject) x.wordnet.get(simplestword)).get("children"))
 							.get(0);
 
 				}

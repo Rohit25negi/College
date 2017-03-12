@@ -5,14 +5,17 @@ import edu.cmu.sphinx.util.props.ConfigurationManager;
 import edu.cmu.sphinx.util.props.PropertyException;
 
 import java.awt.*;
+import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.StringSelection;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
 import javax.swing.JPanel;
 import javax.swing.UIManager;
-
+import java.awt.Robot;
 public class Main {
 	static boolean On = false;
 	static Frontend maincontrol;
@@ -61,76 +64,87 @@ public class Main {
 								// Runtime.getRuntime().exec("wscript.exe
 								// ./say.vbs \"On It\"");
 								switch (resultText) {
-								case "minimize":
-									Test.minimizeWindow();
+//								case "minimize":
+//									Test.minimizeWindow();
+//									break;
+//								case "minimize all":
+//									Test.minimizeAll();
+//									break;
+//								case "show processes":
+//									maincontrol.showProcesses();
+//									maincontrol.repaint();
+//									break;
+//								case "close":
+//									try {
+//										Test.closeProcess();
+//										
+//									} catch (Exception e) {
+//
+//									}
+//									break;
+//								case "focus":
+//									try {
+//										Test.toForeground((String) maincontrol.content
+//												.getValueAt(maincontrol.content
+//														.getSelectedRow(), 0));
+//									} catch (Exception e) {
+//
+//									}
+//									break;
+//								case "down":
+//									try {
+//										int n = maincontrol.content
+//												.getSelectedRow();
+//										maincontrol.content
+//												.setRowSelectionInterval(n + 1,
+//														n + 1);
+//									} catch (Exception e) {
+//
+//									}
+//									break;
+//								case "up":
+//									try {
+//										int n = maincontrol.content
+//												.getSelectedRow();
+//										maincontrol.content
+//												.setRowSelectionInterval(n - 1,
+//														n - 1);
+//									} catch (Exception e) {
+//
+//									}
+//									break;
+//								case "open paint":
+//									try {
+//										Runtime.getRuntime().exec("mspaint");
+//									} catch (Exception e) {
+//
+//									}
+//									break;
+//								case "open sublime":
+//									try {
+//										ProcessBuilder pb = new ProcessBuilder(
+//												"cmd.exe", "/c", new File(
+//														"application/"
+//																+ "sublime"
+//																+ ".LNK")
+//														.getAbsolutePath());
+//										pb.start();
+//									} catch (Exception e) {
+//
+//									}
+//									break;
+								case "read":
+									Robot robot=new Robot();
+									
+									robot.keyPress(KeyEvent.VK_CONTROL);
+									  robot.keyPress(KeyEvent.VK_C);
+									  robot.keyRelease(KeyEvent.VK_C);
+									  robot.keyRelease(KeyEvent.VK_CONTROL);
+									  Toolkit toolkit = Toolkit.getDefaultToolkit();
+										Clipboard clipboard = toolkit.getSystemClipboard();
+										String res = (String) clipboard.getData(DataFlavor.stringFlavor);
+										System.out.println(res);
 									break;
-								case "minimize all":
-									Test.minimizeAll();
-									break;
-								case "show processes":
-									maincontrol.showProcesses();
-									maincontrol.repaint();
-									break;
-								case "close":
-									try {
-										Test.closeProcess();
-										
-									} catch (Exception e) {
-
-									}
-									break;
-								case "focus":
-									try {
-										Test.toForeground((String) maincontrol.content
-												.getValueAt(maincontrol.content
-														.getSelectedRow(), 0));
-									} catch (Exception e) {
-
-									}
-									break;
-								case "down":
-									try {
-										int n = maincontrol.content
-												.getSelectedRow();
-										maincontrol.content
-												.setRowSelectionInterval(n + 1,
-														n + 1);
-									} catch (Exception e) {
-
-									}
-									break;
-								case "up":
-									try {
-										int n = maincontrol.content
-												.getSelectedRow();
-										maincontrol.content
-												.setRowSelectionInterval(n - 1,
-														n - 1);
-									} catch (Exception e) {
-
-									}
-									break;
-								case "open paint":
-									try {
-										Runtime.getRuntime().exec("mspaint");
-									} catch (Exception e) {
-
-									}
-									break;
-								case "open sublime":
-									try {
-										ProcessBuilder pb = new ProcessBuilder(
-												"cmd.exe", "/c", new File(
-														"application/"
-																+ "sublime"
-																+ ".LNK")
-														.getAbsolutePath());
-										pb.start();
-									} catch (Exception e) {
-
-									}
-									break;
-
 								}
 
 							} else {

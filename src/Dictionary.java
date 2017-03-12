@@ -32,8 +32,7 @@ public String tagText()	//to perform the POS Tagging on the input text using Sta
 	
 		MaxentTagger tagger = new MaxentTagger("models/left3words-wsj-0-18.tagger");	//Loading the tagger
 		sentences = tagger.tagString(untaggedString); //taggin the text
-		TaggedText=sentences;
-		
+		TaggedText=sentences;		
 	}catch(Exception ex)
 	{
 		ex.printStackTrace();

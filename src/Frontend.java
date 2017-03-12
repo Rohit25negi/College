@@ -156,8 +156,18 @@ public class Frontend extends JFrame implements ActionListener {
 		{
 			String untaggedString=untagged.getText().trim();	
 			Dictionary dic=new Dictionary(untaggedString);// Creating Dictionary Object
-			dic.tagText();	//Tagging the text
-			
+			String A[]=dic.tagText().split(" "),p,finalproduct="";	//Tagging the text
+			Wordnet wordnet=new Wordnet();
+			for(int j=0;j<A.length;j++)
+			{	String x=A[j].split("/")[1];
+				p=A[j].split("/")[0];
+				if(x.equals("NN")||x.equals("NNP")||x.equals("VB")||x.equals("JJ"))
+				{
+					p=wordnet.simplestOf(p, x);
+				}
+				finalproduct+=p+" ";
+			}
+			System.out.println(finalproduct);
 		}
 	}
 

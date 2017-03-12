@@ -1,1 +1,62 @@
-{"provisional":{"parents":["tentative"],"pos":"adj","children":[]},"tentative":{"parents":[],"pos":"adj","children":["provisional"]}}
+{
+	"provisional": {
+		"pos": "JJ",
+		"children": [],
+		"parents": [
+			"tentative"
+		]
+	},
+	"eternal": {
+		"pos": "JJ",
+		"children": [
+			"everlasting"
+		],
+		"parents": [
+			"perpetual"
+		]
+	},
+	"everlasting": {
+		"pos": "JJ",
+		"children": [
+			"endless"
+		],
+		"parents": [
+			"eternal"
+		]
+	},
+	"emotional": {
+		"pos": "JJ",
+		"children": [],
+		"parents": [
+			"poingnant"
+		]
+	},
+	"poingnant": {
+		"pos": "JJ",
+		"children": [
+			"emotional"
+		],
+		"parents": []
+	},
+	"endless": {
+		"pos": "JJ",
+		"children": [],
+		"parents": [
+			"everlasting"
+		]
+	},
+	"tentative": {
+		"pos": "JJ",
+		"children": [
+			"provisional"
+		],
+		"parents": []
+	},
+	"perpetual": {
+		"pos": "JJ",
+		"children": [
+			"eternal"
+		],
+		"parents": []
+	}
+}
