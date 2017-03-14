@@ -47,7 +47,6 @@ interface User32 extends StdCallLibrary {
 	boolean IsWindowVisible(HWND hWnd);
 	 HWND GetForegroundWindow();  // add this
      boolean CloseWindow(HWND hWnd);
-
 	
 }
 public class Test {

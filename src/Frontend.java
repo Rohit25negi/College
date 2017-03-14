@@ -39,18 +39,19 @@ import edu.stanford.nlp.ling.Sentence;
 import edu.stanford.nlp.ling.TaggedWord;
 import edu.stanford.nlp.ling.HasWord;
 import edu.stanford.nlp.tagger.maxent.MaxentTagger;
+
 public class Frontend extends JFrame implements ActionListener {
-	JButton  button2, button3, button4,simplify;
+	JButton button2, button3, button4, simplify;
 	JButton On, Off;
 	JPanel leftp;
 	JPanel rightp;
-	JTextArea untagged, tagged;	//untagged area contains input Text, Tagged Area will contained output Text
+	JTextArea untagged, tagged; // untagged area contains input Text, Tagged
+								// Area will contained output Text
 
 	public Frontend() {
 		super("ABDA");
 		leftp = new JPanel();
 		rightp = new JPanel();
-
 
 		button2 = new JButton("Text simplifier");
 		button2.setBounds(50, 130, 100, 30);
@@ -100,73 +101,90 @@ public class Frontend extends JFrame implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		 if (e.getSource() == button3) {
+		if (e.getSource() == button3) {
+			/* Show all the processes which have the UI */
+			rightp.removeAll();
 			showProcesses();
 			rightp.repaint();
 		} else if (e.getSource() == button2) {
-			
-			untagged=new JTextArea();
-			untagged.setBounds(30,30,400,100);
+			rightp.removeAll();
+			untagged = new JTextArea();
+			untagged.setBounds(30, 30, 400, 100);
 			rightp.add(untagged);
-			
-			tagged=new JTextArea();
-			tagged.setBounds(30,150,400,100);
+
+			tagged = new JTextArea();
+			tagged.setBounds(30, 150, 400, 100);
 			rightp.add(tagged);
 			rightp.repaint();
-			simplify=new JButton("Simplify");
-			simplify.setBounds(10,280,200,40);
+			simplify = new JButton("Simplify");
+			simplify.setBounds(10, 280, 200, 40);
 			rightp.add(simplify);
 			simplify.addActionListener(this);
 			rightp.add(simplify);
 			rightp.setLayout(null);
-			
-			
+
 		} else if (e.getSource() == button4) {
+			rightp.removeAll();
 			showMemoryUseage();
 			rightp.repaint();
-		}else if(e.getSource()==simplify)	//author Rohit Negi, When user wants to simplify the Text
-		{
-			
-			
+		} else if (e.getSource() == simplify) {
+			/* Author: Rohit Negi */
+			/* simplifying the text present in untagged textarea */
+			String x = untagged.getText();
+			Dictionary dict = new Dictionary(x);
+			dict.tagText();
+			try {
+				String simple = dict.simplify();
+				tagged.setText(simple);
+			} catch (Exception ex) {
+				System.out.println("exception in simplifying");
+			}
 		}
 	}
 
-	void showMusic() {	//	author Rohit Negi, Moto is to show the selected music playlist
-
-		// new Music();
-	}
-	
 	JTable content;
 
-	void showMemoryUseage() {	//author Rohit Negi, Showing the memory usage of every process using the window's tasklist.exe program
+	void showMemoryUseage() {
+		/*
+		 * AUTHOR: Rohit Negi Showing memory usage of all the processes running
+		 * on the system.
+		 * 
+		 */
 		try {
+			// Creating a process with the program called tasklist.exe(feature
+			// of windows OS)
 			Process p = Runtime.getRuntime().exec("tasklist.exe /nh");
-			BufferedReader in = new BufferedReader(new InputStreamReader(
-					p.getInputStream()));
+
+			/* binding inputstream with the process */
+			BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
+
 			String str;
 			String column[] = { "Service", "Memory Occupied" };
 			ArrayList<String[]> list = new ArrayList();
 
+			/* Reading the process list and its memory */
 			while ((str = in.readLine()) != null) {
 				str = str.replaceAll(" +", " ");
 				String s[] = str.split(" ");
-				if (s.length >= 6)
-					list.add(new String[] { s[0],
-							s[s.length - 2] + " " + s[s.length - 1] });
+				if (s.length >= 6) {
+					list.add(new String[] { s[0], s[s.length - 2] + " " + s[s.length - 1] });
+				}
 			}
+
 			String list2[][] = new String[list.size()][2];
 			for (int i = 0; i < list2.length; i++) {
 				list2[i][0] = list.get(i)[0];
 				list2[i][1] = list.get(i)[1];
-				System.out.println(list2[i][0] + ":" + list2[i][1]);
+
 			}
 			content = new JTable(list2, column);
-			content.setBounds(30, 40, 200, 300);
+
 			content.setRowSelectionInterval(0, 0);
 			JScrollPane sp = new JScrollPane(content);
-			
-
+			sp.setBounds(30, 40, 300, 300);
+			rightp.add(sp);
 			rightp.setLayout(null);
+
 		} catch (Exception e) {
 			System.out.println(e);
 		}
@@ -174,32 +192,45 @@ public class Frontend extends JFrame implements ActionListener {
 	}
 
 	void showProcesses() {
-		rightp.removeAll();
-		ArrayList<String> processList = Test.processList();
+		/*
+		 * AUTHOR: Rohit Negi This function is to display all the processes
+		 * which have windowed UI
+		 */
+
+		ArrayList<String> processList = Test.processList(); // Test.processList
+															// returns the
+															// windows UI
+															// process
 
 		String column[] = { "Applications" };
 		String List[][] = new String[processList.size()][1];
 		int i = 0;
 		for (String ss : processList)
-			List[i++][0] = ss.substring(ss.lastIndexOf('-') + 1).trim();
+			List[i++][0] = ss.substring(ss.lastIndexOf('-') + 1).trim(); // adding
+																			// processes
+																			// to
+																			// list
 
 		content = new JTable(List, column);
-		content.setBounds(30, 40, 200, 300);
+
 		content.setRowSelectionInterval(0, 0);
 		JScrollPane sp = new JScrollPane(content);
+		sp.setBounds(30, 40, 200, 300);
 
 		content.addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-					String name = (String) content.getValueAt(
-							content.getSelectedRow(), 0);
+					String name = (String) content.getValueAt(content.getSelectedRow(), 0);
 					// content.remove(content.getSelectedRow());
-					Test.toForeground(name);
+					
+					Test.toForeground(name); // Bringing the current select
+												// process to focus(bring it to
+												// top)
 				}
 			}
 		});
 
-		rightp.add(content);
+		rightp.add(sp);
 
 		rightp.setLayout(null);
 	}

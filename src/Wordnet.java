@@ -1,7 +1,8 @@
 
 /**
- * AUTHOR: ROHIT NEGI, CSE-B, Roll No- 130101144
+ * AUTHOR: ROHIT NEGI, CSE-B, Roll No- 130101144, Sys id- 2013014812
  * 
+ * This File contains the code for manipulation of the network of English words and  simplifying the given words.
  */
 import org.json.simple.JSONObject;
 import java.util.Scanner;
@@ -16,11 +17,13 @@ public class Wordnet {
 
 	Wordnet() {
 		try {
+			// Wordnet.json stores the web of stored/defined english words
 			File file = new File("Wordnet.json");
 			if (!file.exists())
 				file.createNewFile();
 
 			JSONParser parser = new JSONParser();
+			// parsing the json string to json object
 			JSONObject jObject = (JSONObject) parser.parse(new FileReader("Wordnet.json"));
 			this.wordnet = jObject;
 
@@ -29,10 +32,15 @@ public class Wordnet {
 		}
 	}
 
+	/* return the wordnet which is the object of JSONObject class */
 	public JSONObject getWordnet() {
 		return wordnet;
 	}
 
+	/*
+	 * to insert new word into web of words. pos is the POS from which the word
+	 * is belong to. metadata includes the parent and child node information
+	 */
 	public boolean insertWord(String word, String pos, String... metadata) {
 		String parent = null, child = null;
 		ArrayList<String> parents = new ArrayList();
@@ -52,6 +60,9 @@ public class Wordnet {
 		}
 		String previousChild = null;
 
+		/*
+		 * checking is the parent already have the child with the same pos tag
+		 */
 		OUTER: for (int i = 0; i < parents.size(); i++) {
 			ArrayList<String> chill = ((ArrayList<String>) ((JSONObject) this.wordnet.get(parents.get(i)))
 					.get("children"));
@@ -62,10 +73,14 @@ public class Wordnet {
 				}
 			}
 		}
+
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("pos", pos);
 		jsonObject.put("parents", parents);
+
 		if (previousChild == null) {
+			/* if parent doesn't have child with same pos */
+			/* simply make the new word child of given parents */
 
 			jsonObject.put("children", children);
 
@@ -75,13 +90,25 @@ public class Wordnet {
 				((ArrayList<String>) ((JSONObject) this.wordnet.get(child)).get("parents")).add(word);
 
 		} else {
+			/* if parent has child with same pos */
+
+			/*
+			 * replacing the current child of parent with this word. making the
+			 * current child of parent, the child of this word.
+			 */
 			((ArrayList<String>) ((JSONObject) this.wordnet.get(parent)).get("children")).remove(previousChild);
 			((ArrayList<String>) ((JSONObject) this.wordnet.get(parent)).get("children")).add(word);
 			((ArrayList<String>) ((JSONObject) this.wordnet.get(previousChild)).get("parents")).remove(parent);
 			((ArrayList<String>) ((JSONObject) this.wordnet.get(previousChild)).get("parents")).add(word);
+
 			if (child != null) {
 				String pos1 = ((String) ((JSONObject) this.wordnet.get(child)).get("pos"));
 				String pos2 = ((String) ((JSONObject) this.wordnet.get(previousChild)).get("pos"));
+
+				/*
+				 * if the child of this word and current child of given parent
+				 * have same pos then only one link is maintained
+				 */
 				if (pos1.equals(pos2))
 					children.clear();
 				else
@@ -91,8 +118,11 @@ public class Wordnet {
 			jsonObject.put("children", children);
 
 		}
+		/* insert the new word into the wordnet */
 		this.wordnet.put(word, jsonObject);
+
 		try {
+			/* writing the wordnet into the file */
 			FileOutputStream fout = new FileOutputStream("Wordnet.json");
 			PrintStream out = new PrintStream(fout);
 			out.print(this.wordnet.toJSONString());
@@ -104,63 +134,37 @@ public class Wordnet {
 
 	}
 
+	/* to find the simplest form of the given word with same pos */
 	public String simplestOf(String word, String pos) {
+		/* converting it to lowercase */
 		String simplestword = word.toLowerCase();
+
+		/* traverse the tree until you reach to the leaf node */
 		while (this.wordnet.get(simplestword) != null
 				&& !((ArrayList) ((JSONObject) this.wordnet.get(simplestword)).get("children")).isEmpty()) {
-			ArrayList<String> childrenOfThis = ((ArrayList) ((JSONObject) this.wordnet.get(simplestword)).get("children"));
+
+			/* getting all the children nodes of current node */
+			ArrayList<String> childrenOfThis = ((ArrayList) ((JSONObject) this.wordnet.get(simplestword))
+					.get("children"));
 			int i;
+			/* traversing each any every child of this node */
 			for (i = 0; i < childrenOfThis.size(); i++) {
 				if (((String) ((JSONObject) this.wordnet.get((String) childrenOfThis.get(i))).get("pos")).equals(pos)) {
 					simplestword = childrenOfThis.get(i);
 					break;
 				}
 			}
-			if(i==childrenOfThis.size())break;
+			
+			/*if no child has the pos same as input word, then break the loop*/
+			if (i == childrenOfThis.size())
+				break;
 		}
-		char c=word.charAt(0);
-		if(c>='A'&&c<='Z')
-			simplestword=simplestword.charAt(0)+simplestword.substring(1);
+		char c = word.charAt(0);
+		
+		/*changing the case of outputword same as input word*/
+		if (c >= 'A' && c <= 'Z')
+			simplestword = simplestword.charAt(0) + simplestword.substring(1);
 		return simplestword;
 	}
 
-	public static void main(String arg[]) {
-		Wordnet x = new Wordnet();
-		Scanner in = new Scanner(System.in);
-		int choice;
-		do {
-			System.out.println(
-					"1.insert the word\n2.extract the simplest word of a word\n3.remove a word\n4. display the wordnet");
-			System.out.println("5.exit");
-			System.out.println("enter you choice");
-			choice = in.nextInt();
-			switch (choice) {
-			case 1:
-				x.insertWord(in.next(), in.next(), in.next(), in.next());
-				break;
-			case 2:
-				System.out.println("enter the word");
-				String simplestword = in.next();
-				System.out.println("enter the POS type");
-				while (!((ArrayList) ((JSONObject) x.wordnet.get(simplestword)).get("children")).isEmpty()) {
-					simplestword = (String) ((ArrayList) ((JSONObject) x.wordnet.get(simplestword)).get("children"))
-							.get(0);
-
-				}
-				System.out.println(simplestword);
-				break;
-			case 3:
-				break;
-			case 4:
-				System.out.println(x.wordnet);
-				break;
-			case 5:
-				System.out.println("bye bye");
-				break;
-			default:
-				System.out.println("wrong option");
-			}
-		} while (choice != 5);
-
-	}
 }
