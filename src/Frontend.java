@@ -40,7 +40,7 @@ import edu.stanford.nlp.ling.TaggedWord;
 import edu.stanford.nlp.ling.HasWord;
 import edu.stanford.nlp.tagger.maxent.MaxentTagger;
 public class Frontend extends JFrame implements ActionListener {
-	JButton button1, button2, button3, button4,simplify;
+	JButton  button2, button3, button4,simplify;
 	JButton On, Off;
 	JPanel leftp;
 	JPanel rightp;
@@ -51,9 +51,6 @@ public class Frontend extends JFrame implements ActionListener {
 		leftp = new JPanel();
 		rightp = new JPanel();
 
-		button1 = new JButton("click");
-		button1.setBounds(50, 150, 100, 30);
-		button1.addActionListener(this);
 
 		button2 = new JButton("Text simplifier");
 		button2.setBounds(50, 130, 100, 30);
@@ -103,32 +100,7 @@ public class Frontend extends JFrame implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == button1) {
-
-			JTextField id = new JTextField();
-			id.setBounds(50, 50, 100, 30);
-			rightp.add(id);
-			JTextField prog_path = new JTextField();
-			prog_path.setBounds(200, 50, 100, 30);
-			rightp.add(prog_path);
-			JButton button = new JButton("select the file");
-			button.addActionListener(this);
-			if (!prog_path.getText().trim().isEmpty()) {
-				File f2 = new File("./application");
-
-				if (!f2.exists())
-					f2.mkdir();
-				try {
-					Runtime.getRuntime().exec(
-							"wscript shortcut.vbs \"" + id.getText()
-									+ ".LNK\" \"" + prog_path.getText() + "\"");
-
-				} catch (Exception exc) {
-
-				}
-				JOptionPane.showMessageDialog(this, "shortbut created");
-			}
-		} else if (e.getSource() == button3) {
+		 if (e.getSource() == button3) {
 			showProcesses();
 			rightp.repaint();
 		} else if (e.getSource() == button2) {
