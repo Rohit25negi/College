@@ -1,3 +1,14 @@
+
+/**
+ * Author:
+ *	Name - Rohit Negi
+ *  Roll No - 130101144
+ *  Sys Id -2013014812
+ *  
+ *  
+ *  This file contains the UI controller code for the wordnet UI.
+ *   This gives the user ability to insert new words easily
+ */
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -27,11 +38,12 @@ public class WordnetUI extends Application implements Initializable {
 	Wordnet wordnet;
 	public TextField newword;
 
+	/* Initializing the fields */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
-		pos.getItems().addAll("JJ", "NN", "VB","NNP");
-		
+
+		pos.getItems().addAll("JJ", "NN", "VB", "NNP");
+
 		wordnet = new Wordnet();
 		Set<String> keys = wordnet.getWordnet().keySet();
 		parent.getItems().addAll(keys);
@@ -41,6 +53,7 @@ public class WordnetUI extends Application implements Initializable {
 	public void start(Stage primaryStage) {
 		try {
 
+			/* loading the UI, UI code stored in WordnetUI.fxml */
 			Pane page = (Pane) FXMLLoader.load(Main.class.getResource("WordnetUI.fxml"));
 			Scene scene = new Scene(page);
 			primaryStage.setScene(scene);
@@ -51,9 +64,12 @@ public class WordnetUI extends Application implements Initializable {
 		}
 	}
 
+	/*to insert the code into the wordnet.*/
 	public void insertIntoWordnet() {
 		String type = pos.getSelectionModel().getSelectedItem();
+
 		if (type == null) {
+			/* if no pos is selected */
 			System.out.println("Select the POS");
 			return;
 		}
@@ -64,13 +80,18 @@ public class WordnetUI extends Application implements Initializable {
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Wordnet Operation");
 		alert.setHeaderText(null);
+
 		if (wordnet.insertWord(word, type, p, c)) {
+			/* If the word is inserted successfully */
 			alert.setContentText("Word inserted successfully");
 
 		} else {
+			/* If the word is not successfully stored */
 			alert.setContentText("Word Could not be inserted");
 		}
+
 		alert.showAndWait();
+		/* reinitializing the fields with new word added */
 		parent.getItems().clear();
 		wordnet = new Wordnet();
 		Set<String> keys = wordnet.getWordnet().keySet();
@@ -78,6 +99,10 @@ public class WordnetUI extends Application implements Initializable {
 
 	}
 
+	/*
+	 * Single node can not be parent and child both. Therefore, the node
+	 * selected as parent should be removed from the children selection list
+	 */
 	public void prepareChildren() {
 		Wordnet wordnet = new Wordnet();
 		Set<String> keys = wordnet.getWordnet().keySet();

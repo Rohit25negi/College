@@ -35,12 +35,12 @@ public class Dictionary {
 		String untaggedString = SimpleText;
 		if (!untaggedString.isEmpty()) {
 			try {
-
-				MaxentTagger tagger = new MaxentTagger("models/left3words-wsj-0-18.tagger"); // Loading
-																								// the
-																								// tagger
-				sentences = tagger.tagString(untaggedString); // tagging the
-																// text
+				/*loading the tagger*/
+				MaxentTagger tagger = new MaxentTagger("models/left3words-wsj-0-18.tagger");
+				
+				/*taggint the text*/
+				sentences = tagger.tagString(untaggedString); 
+				
 				TaggedText = sentences;
 			} catch (Exception ex) {
 				ex.printStackTrace();
@@ -53,10 +53,10 @@ public class Dictionary {
 
 	/* simplifying the tagged text with the help of wordnet */
 	public String simplify() throws Exception {
-
-		String A[] = this.TaggedText.split(" "), p, finalproduct = ""; // Tagging
-																		// the
-																		// text
+		
+		/*tagging the text*/
+		String A[] = this.TaggedText.split(" "), p, finalproduct = ""; 
+		
 		/* Loading the wordnet */
 		Wordnet wordnet = new Wordnet();
 

@@ -1,3 +1,6 @@
+/**
+ * CO-Author: Rohit Negi(Me) and Sandesh timilsina 
+ */
 import java.awt.BorderLayout;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -196,20 +199,16 @@ public class Frontend extends JFrame implements ActionListener {
 		 * AUTHOR: Rohit Negi This function is to display all the processes
 		 * which have windowed UI
 		 */
-
-		ArrayList<String> processList = Test.processList(); // Test.processList
-															// returns the
-															// windows UI
-															// process
+		/*Test.processlist returns the windowed UI processed*/
+		ArrayList<String> processList = Test.processList();
 
 		String column[] = { "Applications" };
 		String List[][] = new String[processList.size()][1];
 		int i = 0;
+		
+		//Adding processes to the list
 		for (String ss : processList)
-			List[i++][0] = ss.substring(ss.lastIndexOf('-') + 1).trim(); // adding
-																			// processes
-																			// to
-																			// list
+			List[i++][0] = ss.substring(ss.lastIndexOf('-') + 1).trim(); 
 
 		content = new JTable(List, column);
 
@@ -223,9 +222,8 @@ public class Frontend extends JFrame implements ActionListener {
 					String name = (String) content.getValueAt(content.getSelectedRow(), 0);
 					// content.remove(content.getSelectedRow());
 					
-					Test.toForeground(name); // Bringing the current select
-												// process to focus(bring it to
-												// top)
+					/*Bringing the current select process to focus(bring it to top)*/
+					Test.toForeground(name); 
 				}
 			}
 		});

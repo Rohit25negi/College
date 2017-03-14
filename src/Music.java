@@ -158,20 +158,15 @@ public class Music extends JFrame implements ActionListener {
 	/*This function will automatically create the playList depending on the past history of the user*/
 	public void createPlayList(int size) { 
 		try {
-			FileInputStream fin = new FileInputStream(new File("past.record")); // past.record
-																				// file
-																				// contains
-																				// the
-																				// user's
-																				// history
+			
+			/*past.record file contains the user's music listening history*/
+			FileInputStream fin = new FileInputStream(new File("past.record")); 
 			
 			ObjectInputStream oin = new ObjectInputStream(fin);
-			TreeMap<String, Integer> percent = new TreeMap(); // Treemap is used
-																// to maintain
-																// the Key:value
-																// pair and it
-																// is also fast
-																// in searching
+			
+			/*Tree Map is used to maintain the key:value pair and it is also fast in searching*/
+			TreeMap<String, Integer> percent = new TreeMap(); 
+			
 			TreeMap<String, Integer> x;
 			int total = 0;
 			System.out.println(oin.available());
@@ -209,30 +204,16 @@ public class Music extends JFrame implements ActionListener {
 			Random random = new Random();
 
 			for (String key : keys) {
-				count = (int) ((percent.get(key) / (float) total) * size); // count
-																			// of
-																			// each
-																			// type
-																			// of
-																			// song
-																			// to
-																			// be
-																			// inserted
-																			// in
-																			// list
+				/*count of each type of song which is to be inserted into the list*/
+				count = (int) ((percent.get(key) / (float) total) * size); 
+				
 				songs = musicList.get(key);
 
 				System.out.println(key + ":" + percent.get(key) + ":" + total + ":" + count);
+				
+				/*storing the 'count' number of songs of this type*/
 				while (count-- != 0 && !songs.isEmpty())
-					tempFiles.add(new File(songs.remove(random.nextInt(songs.size())))); // storing
-																							// 'count'
-																							// number
-																							// of
-																							// random
-																							// song
-																							// of
-																							// this
-																							// type.
+					tempFiles.add(new File(songs.remove(random.nextInt(songs.size())))); 
 
 			}
 			int cursize = tempFiles.size();
@@ -275,10 +256,8 @@ public class Music extends JFrame implements ActionListener {
 				while (!songs.isEmpty()) {
 					if (++cursize > size)
 						break OUTER;
-					tempFiles.add(new File(songs.remove(random.nextInt(songs.size()))));// filling
-																						// the
-																						// remaining
-																						// playlist
+					/*filling the remaining playlist*/
+					tempFiles.add(new File(songs.remove(random.nextInt(songs.size()))));
 
 				}
 			}
@@ -291,18 +270,16 @@ public class Music extends JFrame implements ActionListener {
 		}
 	}
 
-	public String getGenere(File file) throws Exception { // this function is
-															// used to find the
-															// music genere
+	/*this function is used to find the music genre*/
+	public String getGenere(File file) throws Exception { 
 		BodyContentHandler handler = new BodyContentHandler();
 		Metadata metadata = new Metadata();
 		ParseContext pcontext = new ParseContext();
 		Mp3Parser Mp3Parser = new Mp3Parser();
 		FileInputStream inputstream = new FileInputStream(file);
-		Mp3Parser.parse(inputstream, handler, metadata, pcontext); // Extracting
-																	// the
-																	// metadata
-																	// from file
+		
+		/*extracting the metadata from the file*/
+		Mp3Parser.parse(inputstream, handler, metadata, pcontext); 
 		String genere = metadata.get("xmpDM:genre"); // extracting only the
 														// genre
 		inputstream.close();
@@ -317,28 +294,20 @@ public class Music extends JFrame implements ActionListener {
 		File files[] = file.getFiles();
 
 		try {
-			FileOutputStream fout = new FileOutputStream("temp.list"); // temp.list
-																		// as
-																		// tempry
-																		// file
+			/*temp.list is just a temporary file to store the temporary music list*/
+			FileOutputStream fout = new FileOutputStream("temp.list"); 
+			
 			ObjectOutputStream out = new ObjectOutputStream(fout);
 
-			TreeMap<String, ArrayList<String>> musicList = new TreeMap(); // tree
-																			// map
-																			// is
-																			// used
-																			// to
-																			// maintain
-																			// key:value
-																			// pair
+			/*Treemap is used to maintain the key value pair*/
+			TreeMap<String, ArrayList<String>> musicList = new TreeMap(); 
+			
 			for (int i = 0; i < files.length; i++) {
 
 				String genere = getGenere(files[i]); // get the genre of song
 
-				if (genere == null || genere.trim().isEmpty()) // if not genre
-																// is mentioned
-																// then
-																// genre=other
+				/*if no genre is found then take it as 'other' */
+				if (genere == null || genere.trim().isEmpty()) 
 					genere = "other";
 
 				if (musicList.containsKey(genere)) {
@@ -352,15 +321,8 @@ public class Music extends JFrame implements ActionListener {
 			out.writeObject(musicList);
 			JOptionPane.showMessageDialog(this, "done");
 			out.close();
-			new File("temp.list").renameTo(new File("music.list")); // if
-																	// successfully
-																	// stored
-																	// the
-																	// record
-																	// replace
-																	// music.list
-																	// with new
-																	// record
+			/*if successfully stored the records then replace the file with new record*/
+			new File("temp.list").renameTo(new File("music.list")); 
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -391,15 +353,10 @@ public class Music extends JFrame implements ActionListener {
 				File pastrecord = new File("past.record");
 
 				if (pastrecord.exists()) {
-					TreeMap<String, Integer> recordList[] = new TreeMap[10]; // since
-																				// only
-																				// past
-																				// 10
-																				// records
-																				// are
-																				// to
-																				// be
-																				// maintained
+					
+					/*since only past 10 records are to be maintained therefore the size of array if 10*/
+					TreeMap<String, Integer> recordList[] = new TreeMap[10]; 
+					
 					FileInputStream fin = new FileInputStream(pastrecord);
 					ObjectInputStream oin = new ObjectInputStream(fin);
 					int i = 0;
@@ -510,11 +467,8 @@ public class Music extends JFrame implements ActionListener {
 
 	public void pause() { // Pause the music
 		try {
-			starting_point = total_length - fin.available(); // get the pausing
-																// point so that
-																// it can be
-																// continued
-																// from there
+			/*to get the pausing point so that the song can be continued from there later*/
+			starting_point = total_length - fin.available(); 
 			player.close();
 		} catch (IOException e) {
 

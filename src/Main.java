@@ -27,8 +27,8 @@ import javax.swing.UIManager;
 import java.awt.Robot;
 
 public class Main {
-	static boolean On = false; // On variable: used to check whether to detect
-								// the voice or not. Default=Off
+	/* On variable: used to check whether to detect the voice or not. Default=Off*/
+	static boolean On = false; 
 	static Frontend maincontrol; // Object Reference Varible for UI
 
 	public static void main(String[] args) {
@@ -69,34 +69,21 @@ public class Main {
 
 			recognizer.allocate();
 
-			if (microphone.startRecording()) { // If Microphone is ready to
-												// record
+			/*If Microphone is ready to record*/
+			if (microphone.startRecording()) { 
 
 				System.out.println("Say something:");
 
 				while (true) {
 					System.out.println("Start speaking. Press Ctrl-C to quit.\n");
 
-					Result result = recognizer.recognize(); // The recorded
-															// result from mic
-															// will be stored in
-															// result variable
+					/*the recorded result from mic will be stored in result variable below*/
+					Result result = recognizer.recognize(); 
 					
 					/* Detect the text only when On is true */
 					if (result != null && Main.On) {
-						String resultText = result.getBestFinalResultNoFiller(); // Best
-																					// possible
-																					// word
-																					// which
-																					// is
-																					// most
-																					// close
-																					// to
-																					// the
-																					// spoken
-																					// one
-																					// is
-																					// returned
+						/*best possible word which is closest to the spoken word is returned*/
+						String resultText = result.getBestFinalResultNoFiller();
 						if (resultText.isEmpty())
 							continue;
 						System.out.println("You said: " + resultText + "\n");
