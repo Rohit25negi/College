@@ -105,7 +105,7 @@ public class Wordnet {
 	}
 
 	public String simplestOf(String word, String pos) {
-		String simplestword = word;
+		String simplestword = word.toLowerCase();
 		while (this.wordnet.get(simplestword) != null
 				&& !((ArrayList) ((JSONObject) this.wordnet.get(simplestword)).get("children")).isEmpty()) {
 			ArrayList<String> childrenOfThis = ((ArrayList) ((JSONObject) this.wordnet.get(simplestword)).get("children"));
@@ -118,8 +118,9 @@ public class Wordnet {
 			}
 			if(i==childrenOfThis.size())break;
 		}
-		
-		
+		char c=word.charAt(0);
+		if(c>='A'&&c<='Z')
+			simplestword=simplestword.charAt(0)+simplestword.substring(1);
 		return simplestword;
 	}
 

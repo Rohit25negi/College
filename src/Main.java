@@ -155,8 +155,10 @@ public class Main {
 										if (clipboard.isDataFlavorAvailable(DataFlavor.stringFlavor))
 								        {
 								            String res = (String) clipboard.getData(DataFlavor.stringFlavor);
-											String get=maincontrol.simplify(res);
-											StringSelection selec= new StringSelection(get);
+											Dictionary get=new Dictionary(res);
+											get.tagText();
+											
+											StringSelection selec= new StringSelection(get.simplify());
 											   clipboard.setContents(selec, selec);
 											 
 												robot.keyPress(KeyEvent.VK_CONTROL);

@@ -42,8 +42,30 @@ public String tagText()	//to perform the POS Tagging on the input text using Sta
 	}
 	else return null;
 }
-public void simplify() throws Exception
+public String simplify() throws Exception
 {	
+	
+	String A[]=this.TaggedText.split(" "),p,finalproduct="";	//Tagging the text
+	Wordnet wordnet=new Wordnet();
+	
+	for(int j=0;j<A.length;j++)
+	{	String x=A[j].split("/")[1];
+		System.out.println(A[j]);
+		p=A[j].split("/")[0];
+		if(x.equals("NN")||x.equals("NNP")||x.equals("VB")||x.equals("JJ"))
+		{
+			p=wordnet.simplestOf(p, x);
+		}
+		finalproduct+=p;
+		if(j<A.length-1)
+		{
+			char c=A[j+1].charAt(0);
+			if(c>='A'&&c<='Z'||c>='a'&&c<='z')
+				finalproduct+=" ";
+		}
+	}
+	SimplifiedText=finalproduct;
+	return SimplifiedText;
 }
 static void addWord()
 {
