@@ -154,20 +154,8 @@ public class Frontend extends JFrame implements ActionListener {
 			rightp.repaint();
 		}else if(e.getSource()==simplify)	//author Rohit Negi, When user wants to simplify the Text
 		{
-			String untaggedString=untagged.getText().trim();	
-			Dictionary dic=new Dictionary(untaggedString);// Creating Dictionary Object
-			String A[]=dic.tagText().split(" "),p,finalproduct="";	//Tagging the text
-			Wordnet wordnet=new Wordnet();
-			for(int j=0;j<A.length;j++)
-			{	String x=A[j].split("/")[1];
-				p=A[j].split("/")[0];
-				if(x.equals("NN")||x.equals("NNP")||x.equals("VB")||x.equals("JJ"))
-				{
-					p=wordnet.simplestOf(p, x);
-				}
-				finalproduct+=p+" ";
-			}
-			System.out.println(finalproduct);
+			
+			
 		}
 	}
 
@@ -175,7 +163,26 @@ public class Frontend extends JFrame implements ActionListener {
 
 		// new Music();
 	}
-
+	String simplify(String untaggedString)
+	{
+		String wordpos[]=untaggedString.split(" ");
+		
+		Dictionary dic=new Dictionary(untaggedString);// Creating Dictionary Object
+		String A[]=dic.tagText().split(" "),p,finalproduct="";	//Tagging the text
+		Wordnet wordnet=new Wordnet();
+		System.out.println(dic.tagText());
+		for(int j=0;j<A.length;j++)
+		{	String x=A[j].split("/")[1];
+			System.out.println(A[j]);
+			p=A[j].split("/")[0];
+			if(x.equals("NN")||x.equals("NNP")||x.equals("VB")||x.equals("JJ"))
+			{
+				p=wordnet.simplestOf(p, x);
+			}
+			finalproduct+=p;
+		}
+		return finalproduct;
+	}
 	JTable content;
 
 	void showMemoryUseage() {	//author Rohit Negi, Showing the memory usage of every process using the window's tasklist.exe program

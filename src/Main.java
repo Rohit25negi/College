@@ -8,6 +8,8 @@ import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
@@ -22,8 +24,14 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		new Thread(new Runnable() {
-			public void run() {
+		new Thread(){public void run(){
+			maincontrol = new Frontend();
+			try {
+				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			} catch (Exception e) {
+			}}
+		}.start();
+
 
 				try {
 					URL url;
@@ -47,7 +55,8 @@ public class Main {
 					if (microphone.startRecording()) {
 
 						System.out.println("Say something:");
-
+						Toolkit toolkit = Toolkit.getDefaultToolkit();
+						Clipboard clipboard = toolkit.getSystemClipboard();
 						while (true) {
 							System.out
 									.println("Start speaking. Press Ctrl-C to quit.\n");
@@ -133,20 +142,34 @@ public class Main {
 //
 //									}
 //									break;
-								case "read":
+								case "simplify":
 									Robot robot=new Robot();
 									
-									robot.keyPress(KeyEvent.VK_CONTROL);
+									  robot.keyPress(KeyEvent.VK_CONTROL);
 									  robot.keyPress(KeyEvent.VK_C);
 									  robot.keyRelease(KeyEvent.VK_C);
 									  robot.keyRelease(KeyEvent.VK_CONTROL);
-									  Toolkit toolkit = Toolkit.getDefaultToolkit();
-										Clipboard clipboard = toolkit.getSystemClipboard();
-										String res = (String) clipboard.getData(DataFlavor.stringFlavor);
-										System.out.println(res);
+									  
+									  
+									  	Thread.sleep(2000);
+										if (clipboard.isDataFlavorAvailable(DataFlavor.stringFlavor))
+								        {
+								            String res = (String) clipboard.getData(DataFlavor.stringFlavor);
+											String get=maincontrol.simplify(res);
+											StringSelection selec= new StringSelection(get);
+											   clipboard.setContents(selec, selec);
+											 
+												robot.keyPress(KeyEvent.VK_CONTROL);
+												  robot.keyPress(KeyEvent.VK_V);
+												  robot.keyRelease(KeyEvent.VK_V);
+												  robot.keyRelease(KeyEvent.VK_CONTROL);
+												  System.out.println("hello");
+											
+								        }
+										
 									break;
 								}
-
+								
 							} else {
 
 							}
@@ -166,16 +189,9 @@ public class Main {
 					System.err.println("Problem creating HelloWorld: " + e);
 					e.printStackTrace();
 				} catch (Exception e) {
-					System.out.println(e);
+					e.printStackTrace();
 				}
-			}
-		}).start();
-
-		maincontrol = new Frontend();
-		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (Exception e) {
-		}
-
+			
+		
 	}
 }
