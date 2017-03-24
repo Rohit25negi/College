@@ -1,9 +1,11 @@
+
 /**
  * CO-Author: Rohit Negi(Me) and Sandesh timilsina 
  */
 import java.awt.BorderLayout;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLConnection;
 import java.awt.Button;
 import java.awt.Color;
 import java.awt.FileDialog;
@@ -13,9 +15,11 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -44,7 +48,7 @@ import edu.stanford.nlp.ling.HasWord;
 import edu.stanford.nlp.tagger.maxent.MaxentTagger;
 
 public class Frontend extends JFrame implements ActionListener {
-	JButton button2, button3, button4, simplify;
+	JButton button2, button3, button4, simplify, updateDictionary;
 	JButton On, Off;
 	JPanel leftp;
 	JPanel rightp;
@@ -121,9 +125,16 @@ public class Frontend extends JFrame implements ActionListener {
 			rightp.repaint();
 			simplify = new JButton("Simplify");
 			simplify.setBounds(10, 280, 200, 40);
-			rightp.add(simplify);
+			
 			simplify.addActionListener(this);
 			rightp.add(simplify);
+			
+			updateDictionary=new JButton("Update Dictionary");
+			updateDictionary.setBounds(400,280,300,40);
+			updateDictionary.addActionListener(this);
+			rightp.add(updateDictionary);
+			
+			
 			rightp.setLayout(null);
 
 		} else if (e.getSource() == button4) {
@@ -141,6 +152,24 @@ public class Frontend extends JFrame implements ActionListener {
 				tagged.setText(simple);
 			} catch (Exception ex) {
 				System.out.println("exception in simplifying");
+			}
+		}
+		else if (e.getSource() == updateDictionary) {
+			String urlString = "http://csbsharda.16mb.com/";
+			try{URL url = new URL(urlString);
+			URLConnection conn = url.openConnection();
+			InputStream is = conn.getInputStream();
+			BufferedReader in=new BufferedReader(new InputStreamReader(is));
+			StringBuffer x=new StringBuffer("");
+			String temp;
+			while((temp=in.readLine())!=null)
+			{
+				x.append(temp+"\n");
+			}
+			System.out.println(x);
+			}catch(Exception ex)
+			{
+				ex.printStackTrace();
 			}
 		}
 	}
@@ -199,16 +228,16 @@ public class Frontend extends JFrame implements ActionListener {
 		 * AUTHOR: Rohit Negi This function is to display all the processes
 		 * which have windowed UI
 		 */
-		/*Test.processlist returns the windowed UI processed*/
+		/* Test.processlist returns the windowed UI processed */
 		ArrayList<String> processList = Test.processList();
 
 		String column[] = { "Applications" };
 		String List[][] = new String[processList.size()][1];
 		int i = 0;
-		
-		//Adding processes to the list
+
+		// Adding processes to the list
 		for (String ss : processList)
-			List[i++][0] = ss.substring(ss.lastIndexOf('-') + 1).trim(); 
+			List[i++][0] = ss.substring(ss.lastIndexOf('-') + 1).trim();
 
 		content = new JTable(List, column);
 
@@ -221,9 +250,12 @@ public class Frontend extends JFrame implements ActionListener {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					String name = (String) content.getValueAt(content.getSelectedRow(), 0);
 					// content.remove(content.getSelectedRow());
-					
-					/*Bringing the current select process to focus(bring it to top)*/
-					Test.toForeground(name); 
+
+					/*
+					 * Bringing the current select process to focus(bring it to
+					 * top)
+					 */
+					Test.toForeground(name);
 				}
 			}
 		});
