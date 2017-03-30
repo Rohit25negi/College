@@ -14,5 +14,6 @@
 	<classpathentry kind="lib" path="C:/Users/Rohit/workspace/College/TIDIGITS_8gau_13dCep_16k_40mel_130Hz_6800Hz.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Rohit/workspace/College/tika-app-1.14.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Rohit/workspace/College/WSJ_8gau_13dCep_16k_40mel_130Hz_6800Hz.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Rohit/workspace/College/jfoenix.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

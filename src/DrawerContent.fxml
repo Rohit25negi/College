@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="190.0" style="-fx-background-color: #242f41;" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ImageView fitHeight="188.0" fitWidth="190.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/schedule.png" />
+         </image>
+      </ImageView>
+      <JFXButton accessibleText="Process_Control" buttonType="RAISED" prefHeight="47.0" prefWidth="190.0" styleClass="drawerbutton" text="Processes" textFill="#f8f7f7">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </JFXButton>
+      <JFXButton accessibleText="Process_MemoryUsage" buttonType="RAISED" layoutX="10.0" layoutY="170.0" prefHeight="47.0" prefWidth="190.0" styleClass="drawerbutton" text="Memory Usage" textFill="#f8f7f7">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </JFXButton>
+      <JFXButton accessibleText="Playlist_Creator" buttonType="RAISED" layoutX="10.0" layoutY="136.0" prefHeight="51.0" prefWidth="191.0" styleClass="drawerbutton" text="Music Playlist" textFill="#f8f8f8">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </JFXButton>
+      <JFXButton accessibleText="Text_Simplifier" buttonType="RAISED" layoutX="10.0" layoutY="187.0" prefHeight="51.0" prefWidth="192.0" styleClass="drawerbutton" text="Text Simplifier" textFill="#f5f4f4">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </JFXButton>
+      <JFXButton accessibleText="Settings" buttonType="RAISED" layoutX="10.0" layoutY="238.0" prefHeight="51.0" prefWidth="192.0" styleClass="drawerbutton" text="Settings" textFill="#fffefe">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </JFXButton>
+      <JFXButton accessibleText="About" buttonType="RAISED" layoutX="10.0" layoutY="319.0" prefHeight="51.0" prefWidth="192.0" styleClass="drawerbutton" text="About" textFill="#fffefe">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </JFXButton>
+      <JFXButton accessibleText="Exit_Option" buttonType="RAISED" layoutX="10.0" layoutY="289.0" prefHeight="51.0" prefWidth="191.0" styleClass="drawerbutton" text="Exit" textFill="#f5f5f5">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </JFXButton>
+   </children>
+</VBox>

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXTreeTableView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.effect.ColorAdjust?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<FlowPane prefHeight="550.0" prefWidth="796.0" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="FXMLMusicController">
+   <children>
+      <StackPane fx:id="stackPane">
+         <children>
+            <AnchorPane prefHeight="550.0" prefWidth="797.0">
+               <children>
+                  <AnchorPane layoutX="2.0" prefHeight="114.0" prefWidth="801.0" style="-fx-background-color: #fff;">
+                     <children>
+                        <ImageView accessibleRole="BUTTON" fitHeight="41.0" fitWidth="36.0" layoutX="179.0" layoutY="14.0" onMouseClicked="#previous" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/previous.png" />
+                           </image>
+                           <effect>
+                              <ColorAdjust brightness="-1.0" />
+                           </effect>
+                        </ImageView>
+                        <ImageView accessibleRole="BUTTON" fitHeight="23.0" fitWidth="23.0" layoutX="215.0" layoutY="21.0" onMouseClicked="#pause" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/pause.png" />
+                           </image>
+                           <effect>
+                              <ColorAdjust brightness="-1.0" contrast="1.0" hue="1.0" saturation="1.0" />
+                           </effect>
+                        </ImageView>
+                        <ImageView accessibleRole="BUTTON" fitHeight="41.0" fitWidth="36.0" layoutX="266.0" layoutY="15.0" onMouseClicked="#next" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/next.png" />
+                           </image>
+                           <effect>
+                              <ColorAdjust brightness="-1.0" />
+                           </effect>
+                        </ImageView>
+                        <ImageView accessibleRole="BUTTON" fitHeight="23.0" fitWidth="30.0" layoutX="243.0" layoutY="21.0" onMouseClicked="#play" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/icon-play-128.png" />
+                           </image>
+                           <effect>
+                              <ColorAdjust brightness="-1.0" contrast="1.0" hue="1.0" saturation="1.0" />
+                           </effect>
+                        </ImageView>
+                        <Slider layoutX="101.0" layoutY="25.0" prefHeight="0.0" prefWidth="78.0" />
+                        <Slider fx:id="musictrack" layoutX="309.0" layoutY="20.0" prefHeight="23.0" prefWidth="436.0" />
+                        <ButtonBar layoutX="333.0" layoutY="46.0" prefHeight="40.0" prefWidth="436.0">
+                          <buttons>
+                            <Button fx:id="create_playlist" mnemonicParsing="false" onAction="#loadDialogBox" styleClass="musicbutton" text="Create Playlist" />
+                              <Button mnemonicParsing="false" onAction="#setDirectory" styleClass="musicbutton" text="Set Directory" />
+                              <Button mnemonicParsing="false" onAction="#selectSongs" styleClass="musicbutton" text="Select Songs" />
+                              <Button mnemonicParsing="false" styleClass="musicbutton" />
+                          </buttons>
+                        </ButtonBar>
+                        <Label fx:id="listSize" layoutX="582.0" layoutY="86.0" text="Total Songs :" />
+                        <ImageView fitHeight="89.0" fitWidth="58.0" layoutX="28.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/albumsIcon.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </AnchorPane>
+                  <BorderPane layoutY="110.0" prefHeight="492.0" prefWidth="804.0" style="-fx-background-color: #fff;">
+                     <center>
+                        <BorderPane prefHeight="473.0" prefWidth="642.0" style="-fx-background-color: #fff;" BorderPane.alignment="CENTER">
+                           <center>
+                              <JFXTreeTableView fx:id="treeView" prefHeight="466.0" prefWidth="632.0" stylesheets="@mymusic.css" BorderPane.alignment="CENTER">
+                                 <BorderPane.margin>
+                                    <Insets bottom="5.0" left="10.0" />
+                                 </BorderPane.margin>
+                              </JFXTreeTableView>
+                           </center>
+                        </BorderPane>
+                     </center>
+                     <right>
+                        <VBox prefHeight="443.0" prefWidth="162.0" style="-fx-background-color: #008080;" BorderPane.alignment="CENTER">
+                           <children>
+                              <StackPane prefHeight="150.0" prefWidth="141.0">
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                                 <VBox.margin>
+                                    <Insets right="7.0" />
+                                 </VBox.margin>
+                              </StackPane>
+                           </children>
+                           <BorderPane.margin>
+                              <Insets />
+                           </BorderPane.margin>
+                        </VBox>
+                     </right>
+                  </BorderPane>
+               </children>
+            </AnchorPane>
+         </children>
+      </StackPane>
+   </children>
+</FlowPane>
