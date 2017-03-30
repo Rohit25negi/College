@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
@@ -17,3 +18,23 @@
 	<classpathentry kind="lib" path="C:/Users/Rohit/workspace/College/jfoenix.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
+=======
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="/home/champ/workspace/College/jl1.0.1.jar"/>
+	<classpathentry kind="lib" path="/home/champ/workspace/College/jna-4.2.2.jar"/>
+	<classpathentry kind="lib" path="/home/champ/workspace/College/jna-platform-4.2.2.jar"/>
+	<classpathentry kind="lib" path="/home/champ/workspace/College/jsapi.jar"/>
+	<classpathentry kind="lib" path="/home/champ/workspace/College/json-simple-1.1.1.jar"/>
+	<classpathentry kind="lib" path="/home/champ/workspace/College/jsoup-1.10.2.jar"/>
+	<classpathentry kind="lib" path="/home/champ/workspace/College/sphinx4.jar"/>
+	<classpathentry kind="lib" path="/home/champ/workspace/College/stanford-postagger.jar"/>
+	<classpathentry kind="lib" path="/home/champ/workspace/College/stanford-postagger-2011-04-20.jar"/>
+	<classpathentry kind="lib" path="/home/champ/workspace/College/TIDIGITS_8gau_13dCep_16k_40mel_130Hz_6800Hz.jar"/>
+	<classpathentry kind="lib" path="/home/champ/workspace/College/tika-app-1.14.jar"/>
+	<classpathentry kind="lib" path="/home/champ/workspace/College/WSJ_8gau_13dCep_16k_40mel_130Hz_6800Hz.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
+>>>>>>> 2fa113a9fee32ec779f909e43a2b1aa44114fbe8

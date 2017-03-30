@@ -15,8 +15,10 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -155,7 +157,7 @@ public class Frontend extends JFrame implements ActionListener {
 			}
 		}
 		else if (e.getSource() == updateDictionary) {
-			String urlString = "http://csbsharda.16mb.com/";
+			String urlString = "http://onlineword.esy.es/givewordnet.php";
 			try{URL url = new URL(urlString);
 			URLConnection conn = url.openConnection();
 			InputStream is = conn.getInputStream();
@@ -166,7 +168,12 @@ public class Frontend extends JFrame implements ActionListener {
 			{
 				x.append(temp+"\n");
 			}
-			System.out.println(x);
+			
+			FileOutputStream fout=new FileOutputStream("Wordnet.json");
+			PrintStream out=new PrintStream(fout);
+			out.println(x.toString());
+			JOptionPane.showMessageDialog(this, "Wordnet Updated");
+			
 			}catch(Exception ex)
 			{
 				ex.printStackTrace();
