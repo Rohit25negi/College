@@ -11,7 +11,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
-
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -173,18 +173,17 @@ public class FXMLMusicController implements Initializable {
     }
     public void play() { // play the music from staring of from middle.
 		try {
-			fin = new FileInputStream(files[current]);
-			bin = new BufferedInputStream(fin);
-			player = new Player(bin);
-			if (starting_point > 0)
-				fin.skip(starting_point);
+			MusicOperation.fin = new FileInputStream(MusicOperation.files.get(MusicOperation.current));
+			MusicOperation.bin = new BufferedInputStream(MusicOperation.fin);
+			MusicOperation.player = new Player(MusicOperation.bin);
+			if (MusicOperation.starting_point > 0)
+				MusicOperation.fin.skip(MusicOperation.starting_point);
 			else
-				total_length = fin.available();
-			String str = files[current].toString();
-			name.setText(files[current].getName());
+				MusicOperation.total_length = MusicOperation.fin.available();
+			
+			
 
-			tracker.setMinimum(0);
-			tracker.setMaximum((int) (total_length));
+			
 
 			/*
 			 * below code is commented because this thread is hindering the song
@@ -209,9 +208,9 @@ public class FXMLMusicController implements Initializable {
 				public void run() {
 					try {
 
-						player.play();
+						MusicOperation.player.play();
 						System.out.println("called");
-						if (player.isComplete()) { // Checking if the music is
+						if (MusicOperation.player.isComplete()) { // Checking if the music is
 													// completed or not
 
 							next(); // if yes move to next music in the list
@@ -235,8 +234,8 @@ public class FXMLMusicController implements Initializable {
 			 * to get the pausing point so that the song can be continued from
 			 * there later
 			 */
-			starting_point = total_length - fin.available();
-			player.close();
+			MusicOperation.starting_point = MusicOperation.total_length - MusicOperation.fin.available();
+			MusicOperation.player.close();
 		} catch (IOException e) {
 
 			e.printStackTrace();
@@ -245,24 +244,24 @@ public class FXMLMusicController implements Initializable {
 	}
 
 	public void stop() { // stop the playing of song
-		player.close();
-		current = 0;
+		MusicOperation.player.close();
+		MusicOperation.current = 0;
 	}
 
 	public void next() { // move to next song in the list
-		if (current < files.length - 1) {
-			current++;
-			starting_point = -1;
-			player.close();
+		if (MusicOperation.current < MusicOperation.files.size() - 1) {
+			MusicOperation.current++;
+			MusicOperation.starting_point = -1;
+			MusicOperation.player.close();
 			play(); // play the next song selected
 		}
 	}
 
 	public void previous() { // move to previous song
-		if (current > 0) {
-			current--;
-			starting_point = -1;
-			player.close();
+		if (MusicOperation.current > 0) {
+			MusicOperation.current--;
+			MusicOperation.starting_point = -1;
+			MusicOperation.player.close();
 			play();
 		}
 	}
@@ -281,7 +280,11 @@ public class FXMLMusicController implements Initializable {
     	FileChooser choose=new FileChooser();
     	FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Music files", "*.mp3","*.wav");
     	choose.getExtensionFilters().add(extFilter);
-    	choose.showOpenMultipleDialog(null);
+    	List<File>files=choose.showOpenMultipleDialog(null);
+    	MusicOperation.selectFiles(files);
+    	MusicOperation.storeMusicDetails();
+    	play();
+    	
     }
 
    

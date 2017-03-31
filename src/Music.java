@@ -57,11 +57,11 @@ class MusicOperation {
 	static public long total_length;
 	public static Player player;
 
-	public static boolean directoryOpr(File file) { // to store the details of the songs present
+	public static boolean directoryOpr(File file) { // to store the details of
+													// the songs present
 		// in the music directory
-		
 
-		File files[]=file.listFiles();
+		File files[] = file.listFiles();
 
 		try {
 			/*
@@ -76,8 +76,10 @@ class MusicOperation {
 			TreeMap<String, ArrayList<String>> musicList = new TreeMap();
 
 			for (int i = 0; i < files.length; i++) {
-				
-				String genere = new Music(files[i]).getGenere(); // get the genre of song
+
+				String genere = new Music(files[i]).getGenere(); // get the
+																	// genre of
+																	// song
 
 				/* if no genre is found then take it as 'other' */
 				if (genere == null || genere.trim().isEmpty())
@@ -109,13 +111,14 @@ class MusicOperation {
 
 	}
 
-	public static  boolean storeMusicDetails() { // Storing music record as history in
+	public static boolean storeMusicDetails() { // Storing music record as
+												// history in
 		// past.record file
 		if (files != null) {
 			TreeMap<String, Integer> record = new TreeMap();
 			try {
 				for (int i = 0; i < files.size(); i++) {
-					
+
 					String genere = new Music(files.get(i)).getGenere();
 					if (genere == null || genere.trim().isEmpty())
 						genere = "other";
@@ -289,14 +292,20 @@ class MusicOperation {
 
 				}
 			}
-			
+
 			MusicOperation.files = tempFiles;
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
+	public static void selectFiles(List<File> files) {
+		// restricting the filetype
+
+		MusicOperation.files = files;
+
+	}
 }
 
 public class Music {
@@ -308,11 +317,11 @@ public class Music {
 	Music(File file) {
 		this.file = file;
 		try {
-			sgenre=new SimpleStringProperty(this.getGenere());
-			sTitle=new SimpleStringProperty(file.getName());
-			slength=new SimpleStringProperty(this.getLength());
-			sartist=new SimpleStringProperty(this.getArtist());
-			
+			sgenre = new SimpleStringProperty(this.getGenere());
+			sTitle = new SimpleStringProperty(file.getName());
+			slength = new SimpleStringProperty(this.getLength());
+			sartist = new SimpleStringProperty(this.getArtist());
+
 		} catch (Exception e) {
 
 		}
@@ -322,7 +331,6 @@ public class Music {
 	 * This function will automatically create the playList depending on the
 	 * past history of the user
 	 */
-	
 
 	/* this function is used to find the music genre */
 	public String getGenere() throws Exception {
@@ -335,14 +343,13 @@ public class Music {
 		/* extracting the metadata from the file */
 		Mp3Parser.parse(inputstream, handler, metadata, pcontext);
 		String genre = metadata.get("xmpDM:genre"); // extracting only the
-														// genre
-		if(genre==null)
-			genre="Other";
+													// genre
+		if (genre == null)
+			genre = "Other";
 		inputstream.close();
 		return genre;
 	}
-	
-	
+
 	public String getLength() throws Exception {
 		BodyContentHandler handler = new BodyContentHandler();
 		Metadata metadata = new Metadata();
@@ -353,13 +360,13 @@ public class Music {
 		/* extracting the metadata from the file */
 		Mp3Parser.parse(inputstream, handler, metadata, pcontext);
 		String duration = metadata.get("xmpDM:duration"); // extracting only the
-														// genre
-		if(duration==null)
-			duration="0";
+															// genre
+		if (duration == null)
+			duration = "0";
 		inputstream.close();
 		return duration;
 	}
-	
+
 	public String getArtist() throws Exception {
 		BodyContentHandler handler = new BodyContentHandler();
 		Metadata metadata = new Metadata();
@@ -371,26 +378,12 @@ public class Music {
 		Mp3Parser.parse(inputstream, handler, metadata, pcontext);
 		String artist = metadata.get("xmpDM:artist"); // extracting only the
 														// genre
-		if(artist==null)
-			artist="Other";
+		if (artist == null)
+			artist = "Other";
 		inputstream.close();
 		return artist;
 	}
-	
 
 	/* selecting the files which the user wants to play */
-	public void selectFiles() {
-		// restricting the filetype
-		String list[] = { "mp3", "wav" };
-		JFileChooser filechooser = new JFileChooser();
-		filechooser.setMultiSelectionEnabled(true);
-		filechooser.setFileFilter(new FileNameExtensionFilter("music file", list));
-		filechooser.showOpenDialog(this);
-		files = filechooser.getSelectedFiles();
 
-	}
-
-	
-
-	
 }

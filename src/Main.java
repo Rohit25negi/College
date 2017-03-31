@@ -29,7 +29,7 @@ import java.awt.Robot;
 public class Main {
 	/* On variable: used to check whether to detect the voice or not. Default=Off*/
 	static boolean On = false; 
-	static Frontend maincontrol; // Object Reference Varible for UI
+	
 
 	public static void main(String[] args) {
 
