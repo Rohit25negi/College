@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<FlowPane prefHeight="550.0" prefWidth="796.0" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="FXMLMusicController">
+<FlowPane prefHeight="550.0" prefWidth="796.0" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="src.FXMLMusicController">
    <children>
       <StackPane fx:id="stackPane">
          <children>
@@ -55,8 +55,7 @@
                               <ColorAdjust brightness="-1.0" contrast="1.0" hue="1.0" saturation="1.0" />
                            </effect>
                         </ImageView>
-                        <Slider layoutX="101.0" layoutY="25.0" prefHeight="0.0" prefWidth="78.0" />
-                        <Slider fx:id="musictrack" layoutX="309.0" layoutY="20.0" prefHeight="23.0" prefWidth="436.0" />
+                        <Slider fx:id="musicTrack" layoutX="309.0" layoutY="20.0" prefHeight="23.0" prefWidth="436.0" />
                         <ButtonBar layoutX="333.0" layoutY="46.0" prefHeight="40.0" prefWidth="436.0">
                           <buttons>
                             <Button fx:id="create_playlist" mnemonicParsing="false" onAction="#loadDialogBox" styleClass="musicbutton" text="Create Playlist" />
@@ -66,11 +65,12 @@
                           </buttons>
                         </ButtonBar>
                         <Label fx:id="listSize" layoutX="582.0" layoutY="86.0" text="Total Songs :" />
-                        <ImageView fitHeight="89.0" fitWidth="58.0" layoutX="28.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="89.0" fitWidth="58.0" layoutY="-3.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/albumsIcon.png" />
                            </image>
                         </ImageView>
+                        <Slider fx:id="volume" blockIncrement="1.0" layoutX="75.0" layoutY="26.0" prefHeight="14.0" prefWidth="91.0" />
                      </children>
                   </AnchorPane>
                   <BorderPane layoutY="110.0" prefHeight="492.0" prefWidth="804.0" style="-fx-background-color: #fff;">

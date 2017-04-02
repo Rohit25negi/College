@@ -1,6 +1,9 @@
+package src;
 import java.awt.AWTException;
 import java.awt.Robot;
 import java.awt.event.KeyEvent;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.TreeMap;
@@ -54,27 +57,29 @@ public class Test {
 
 	public static void toForeground(String name) {
 		final User32 user32 = User32.INSTANCE;
-		//TreeMap<String,HWND> map=new TreeMap();  
+		//TreeMap<String,HWND> map=new TreeMap(); 
+		
 		user32.EnumWindows(new WNDENUMPROC() {
 			int count = 0;
-
+			
 			public boolean callback(HWND hWnd, Pointer arg1) {
 				byte[] windowText = new byte[512];
 				user32.GetWindowTextA(hWnd, windowText, 512);
 				String wText = Native.toString(windowText);
-
+				
 				// get rid of this if block if you want all windows regardless
 				// of whether
 				// or not they have text
 				if (wText.isEmpty()) {
 					return true;
 				}
+				System.out.println(name+":::"+wText);
 				wText=wText.substring(wText.lastIndexOf('-')+1).trim();
 				if (wText.equals(name)) {
 					user32.ShowWindow(hWnd, 9);
 					user32.SetForegroundWindow(hWnd);
 					
-			        
+						System.out.println("donee");
 					return false;
 				}
 				
@@ -82,6 +87,8 @@ public class Test {
 			}
 
 		}, null);
+		
+		
 		// user32.SetFocus(hWnd);
 		
 	}
@@ -157,5 +164,35 @@ public class Test {
 
 		}, null);
 		
+	}
+	static String[][] showMemoryUseage() {	//author Rohit Negi, Showing the memory usage of every process using the window's tasklist.exe program
+		try {
+			java.lang.Process p = Runtime.getRuntime().exec("tasklist.exe /nh");
+			BufferedReader in = new BufferedReader(new InputStreamReader(
+					p.getInputStream()));
+			String str;
+			String column[] = { "Service", "Memory Occupied" };
+			ArrayList<String[]> list = new ArrayList();
+
+			while ((str = in.readLine()) != null) {
+				str = str.replaceAll(" +", " ");
+				String s[] = str.split(" ");
+				if (s.length >= 6)
+					list.add(new String[] { s[0],
+							s[s.length - 2] + " " + s[s.length - 1] });
+			}
+			String list2[][] = new String[list.size()][2];
+			for (int i = 0; i < list2.length; i++) {
+				list2[i][0] = list.get(i)[0];
+				list2[i][1] = list.get(i)[1];
+				System.out.println(list2[i][0] + ":" + list2[i][1]);
+			}
+		
+			return list2;
+		} catch (Exception e) {
+			System.out.println(e);
+			return null;
+		}
+
 	}
 }

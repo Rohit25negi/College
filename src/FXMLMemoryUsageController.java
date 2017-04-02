@@ -1,4 +1,4 @@
-
+package src;
 import com.jfoenix.controls.JFXTreeTableColumn;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import java.net.URL;
@@ -76,40 +76,28 @@ public class FXMLMemoryUsageController implements Initializable {
         smemoryUsage.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<Process, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<Process, String> param) {
-                return param.getValue().getValue().memoryUsage;
+                return param.getValue().getValue().memory;
             }
         });
 
         
         
         ObservableList<Process> Processs = FXCollections.observableArrayList();
-        Processs.add(new Process("asdh", "23"));
-        Processs.add(new Process("asdh", "23"));
-        Processs.add(new Process("asdh", "23"));
-        Processs.add(new Process("asdh", "23"));
-        Processs.add(new Process("asdh", "23"));
-        
-
-        final TreeItem<Process> root = new RecursiveTreeItem<Process>(Processs, RecursiveTreeObject::getChildren);
-        //treeView.getColumns().setAll(pname, smemoryUsage);
-       // treeView.setRoot(root);
-        //treeView.setShowRoot(false);
-
-    }
-
-    /*The following class defines
-	 the properties/fields that will be displayed on the screen.*/
-    class Process extends RecursiveTreeObject<Process> {
-
-        StringProperty processName;
-        StringProperty memoryUsage;
-       
-
-        public Process(String processName, String memoryUsage) {
-            this.processName = new SimpleStringProperty(processName);
-            this.memoryUsage = new SimpleStringProperty(memoryUsage);
-            
+ 
+        String [][]memories=Test.showMemoryUseage();
+        for(int i=0;i<memories.length;i++)
+        {
+        	Processs.add(new Process(memories[i][0],memories[i][1]));
         }
 
+        final TreeItem<Process> root = new RecursiveTreeItem<Process>(Processs, RecursiveTreeObject::getChildren);
+        treeView.getColumns().setAll(pname, smemoryUsage);
+        treeView.setRoot(root);
+        treeView.setShowRoot(false);
+
     }
+
+   
+
+	
 }

@@ -1,4 +1,4 @@
-
+package src;
 
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialogLayout;
@@ -28,6 +28,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 //import javafx.event.ActionEvent;
@@ -54,14 +55,19 @@ public class FXMLMusicController implements Initializable {
     @FXML
     private StackPane stackPane;
 	
-   
+    @FXML
+    private Label listSize;
+    JFXTreeTableColumn<Music, String> stitle,slength,sartist,sgenre;
+    
+    @FXML
+    private Slider musicTrack,volume;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
     	
     	/*Add first column into the TreeTableview
     	 * Song Title field will appear on the screen.*/ 
-        JFXTreeTableColumn<Music, String> stitle = new JFXTreeTableColumn<>("Song Title");
+         stitle = new JFXTreeTableColumn<>("Song Title");
         
         /*set the predefined width of the column*/
         stitle.setPrefWidth(300);
@@ -74,7 +80,7 @@ public class FXMLMusicController implements Initializable {
         	 * Here the value of songTitle will be displayed on the screen */
         	@Override
             public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<Music, String> param) {
-                return param.getValue().getValue().songTitle;
+                return param.getValue().getValue().sTitle;
             }
         });
 
@@ -82,65 +88,55 @@ public class FXMLMusicController implements Initializable {
         
         /*Add second column into the TreeTableview
     	 * Length field will appear on the screen.*/ 
-        JFXTreeTableColumn<Music, String> slength = new JFXTreeTableColumn<>("Length");
+        slength = new JFXTreeTableColumn<>("Length");
         slength.setPrefWidth(90);
         slength.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<Music, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<Music, String> param) {
-                return param.getValue().getValue().length;
+                return param.getValue().getValue().slength;
             }
         });
 
-        JFXTreeTableColumn<Music, String> sartist = new JFXTreeTableColumn<>("Artist");
+         sartist = new JFXTreeTableColumn<>("Artist");
         sartist.setPrefWidth(120);
         sartist.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<Music, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<Music, String> param) {
-                return param.getValue().getValue().artist;
+                return param.getValue().getValue().sartist;
             }
         });
 
-        JFXTreeTableColumn<Music, String> sgenre = new JFXTreeTableColumn<>("Genre");
+        sgenre = new JFXTreeTableColumn<>("Genre");
         sgenre.setPrefWidth(110);
         sgenre.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<Music, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<Music, String> param) {
-                return param.getValue().getValue().genre;
+                return param.getValue().getValue().sgenre;
             }
         });
         
         ObservableList<Music> Musics = FXCollections.observableArrayList();
-        Musics.add(new Music("asdh", "23", "asdh","12"));
-        Musics.add(new Music("asdh", "23", "asdh","12"));
-        Musics.add(new Music("asdh", "23", "asdh","12"));
-        Musics.add(new Music("asdh", "23", "asdh","12"));
-        Musics.add(new Music("asdh", "23", "asdh","12"));
         
-
+        if(MusicOperation.files!=null)
+        {
+        	for(File f:MusicOperation.files)
+        	{
+        		Musics.add(new Music(f));
+        	}
+        	treeView.getSelectionModel().select(MusicOperation.current);
+        }
         final TreeItem<Music> root = new RecursiveTreeItem<Music>(Musics, RecursiveTreeObject::getChildren);
         treeView.getColumns().setAll(stitle, slength, sartist,sgenre);
         treeView.setRoot(root);
         treeView.setShowRoot(false);
-
+        treeView.requestFocus();
+        volume.setMin(0);
+        volume.setMax(100);
+        volume.setBlockIncrement(1);
+        listSize.setText("Total Songs: 0");
     }
 
-    /*The following class defines
-	 the properties/fields that will be displayed on the screen.*/
-    class Music extends RecursiveTreeObject<Music> {
-
-        StringProperty songTitle;
-        StringProperty length;
-        StringProperty artist;
-        StringProperty genre;
-
-        public Music(String songTitle, String length, String artist, String genre) {
-            this.songTitle = new SimpleStringProperty(songTitle);
-            this.length = new SimpleStringProperty(length);
-            this.artist = new SimpleStringProperty(artist);
-            this.genre = new SimpleStringProperty(genre);
-        }
-
-    }
+   
     
     @FXML
     void loadDialogBox(ActionEvent event) {
@@ -161,8 +157,15 @@ public class FXMLMusicController implements Initializable {
     		String regex ="[0-9]+";	
 			@Override
 			public void handle(ActionEvent event) {
-				System.out.println(userdata.getText());
+				
 				if(userdata.getText().matches(regex)){
+					if(MusicOperation.player!=null){MusicOperation.player.close();
+		    		MusicOperation.player=null;}
+					MusicOperation.createPlayList(Integer.parseInt(userdata.getText()));
+					setLength();
+					setList();
+					MusicOperation.current=0;
+					play();
 					dialog.close();
 				}
 			}
@@ -172,6 +175,7 @@ public class FXMLMusicController implements Initializable {
     	
     }
     public void play() { // play the music from staring of from middle.
+    	if(MusicOperation.player!=null)return;
 		try {
 			MusicOperation.fin = new FileInputStream(MusicOperation.files.get(MusicOperation.current));
 			MusicOperation.bin = new BufferedInputStream(MusicOperation.fin);
@@ -181,6 +185,9 @@ public class FXMLMusicController implements Initializable {
 			else
 				MusicOperation.total_length = MusicOperation.fin.available();
 			
+			musicTrack.setMax(MusicOperation.total_length);
+			treeView.getSelectionModel().select(MusicOperation.current);
+			treeView.requestFocus();
 			
 
 			
@@ -189,20 +196,22 @@ public class FXMLMusicController implements Initializable {
 			 * below code is commented because this thread is hindering the song
 			 * playing
 			 */
-			// Thread x=new Thread() {
-			// public void run() {
-			// player.
-			// while (!player.isComplete())
-			// try {
-			// tracker.setValue((int) (total_length - fin.available()));
-			// } catch (IOException e) {
-			// // TODO Auto-generated catch block
-			// e.printStackTrace();
-			// }
-			// }
-			// };
-			// x.setPriority(1);
-			// x.start();
+			 Thread x=new Thread() {
+			 public void run() {
+			
+			 while (MusicOperation.player!=null&&!MusicOperation.player.isComplete())
+			 try {
+				 musicTrack.setValue((int) (MusicOperation.total_length - MusicOperation.fin.available()));
+			 } catch (IOException e) {
+			 // TODO Auto-generated catch block
+			 e.printStackTrace();
+			 break;
+			 }
+			 }
+			 };
+			 x.setPriority(1);
+			 x.setDaemon(true);
+			 x.start();
 
 			Thread t = new Thread(new Runnable() {
 				public void run() {
@@ -210,7 +219,7 @@ public class FXMLMusicController implements Initializable {
 
 						MusicOperation.player.play();
 						System.out.println("called");
-						if (MusicOperation.player.isComplete()) { // Checking if the music is
+						if (MusicOperation.player!=null&&MusicOperation.player.isComplete()) { // Checking if the music is
 													// completed or not
 
 							next(); // if yes move to next music in the list
@@ -221,6 +230,7 @@ public class FXMLMusicController implements Initializable {
 				}
 			});
 			t.setPriority(10);
+			t.setDaemon(true);
 			t.start();
 
 		} catch (Exception e) {
@@ -229,6 +239,7 @@ public class FXMLMusicController implements Initializable {
 	}
 
 	public void pause() { // Pause the music
+		if(MusicOperation.player==null)return;
 		try {
 			/*
 			 * to get the pausing point so that the song can be continued from
@@ -236,6 +247,7 @@ public class FXMLMusicController implements Initializable {
 			 */
 			MusicOperation.starting_point = MusicOperation.total_length - MusicOperation.fin.available();
 			MusicOperation.player.close();
+			MusicOperation.player=null;
 		} catch (IOException e) {
 
 			e.printStackTrace();
@@ -243,25 +255,25 @@ public class FXMLMusicController implements Initializable {
 
 	}
 
-	public void stop() { // stop the playing of song
-		MusicOperation.player.close();
-		MusicOperation.current = 0;
-	}
-
+	
 	public void next() { // move to next song in the list
-		if (MusicOperation.current < MusicOperation.files.size() - 1) {
+		if(MusicOperation.player==null)return;
+		if (MusicOperation.files!=null&&MusicOperation.current < MusicOperation.files.size() - 1) {
 			MusicOperation.current++;
 			MusicOperation.starting_point = -1;
 			MusicOperation.player.close();
+			MusicOperation.player=null;
 			play(); // play the next song selected
 		}
 	}
 
 	public void previous() { // move to previous song
+		if(MusicOperation.player==null)return;
 		if (MusicOperation.current > 0) {
 			MusicOperation.current--;
 			MusicOperation.starting_point = -1;
 			MusicOperation.player.close();
+			MusicOperation.player=null;
 			play();
 		}
 	}
@@ -270,21 +282,47 @@ public class FXMLMusicController implements Initializable {
     {
     	DirectoryChooser direc=new DirectoryChooser();
     	File file=direc.showDialog(null);
+    	if(file!=null)
     	MusicOperation.directoryOpr(file);
     	
     }
     
     @FXML
     void selectSongs()
-    {
+    {	
     	FileChooser choose=new FileChooser();
     	FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Music files", "*.mp3","*.wav");
     	choose.getExtensionFilters().add(extFilter);
     	List<File>files=choose.showOpenMultipleDialog(null);
-    	MusicOperation.selectFiles(files);
+    	if(files!=null)
+    	{
+    		if(MusicOperation.player!=null){MusicOperation.player.close();
+    		MusicOperation.player=null;}
+    		MusicOperation.selectFiles(files);
     	MusicOperation.storeMusicDetails();
-    	play();
+    	MusicOperation.current=0;
+    	MusicOperation.storeMusicDetails();
+    	setLength();
+    	setList();
     	
+    	play();}
+    	
+    }
+    void setLength()
+    {
+    	listSize.setText("Total Songs: "+MusicOperation.files.size());
+    }
+    void setList()
+    {
+    	ObservableList<Music> Musics = FXCollections.observableArrayList();
+        
+    	for(File f: MusicOperation.files)
+    		Musics.add(new Music(f));
+    	
+        final TreeItem<Music> root = new RecursiveTreeItem<Music>(Musics, RecursiveTreeObject::getChildren);
+        treeView.getColumns().setAll(stitle, slength, sartist,sgenre);
+        treeView.setRoot(root);
+        treeView.setShowRoot(false);
     }
 
    

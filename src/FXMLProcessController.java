@@ -1,7 +1,8 @@
-
+package src;
 import com.jfoenix.controls.JFXTreeTableColumn;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -53,7 +54,7 @@ public class FXMLProcessController implements Initializable {
         JFXTreeTableColumn<Process, String> pname = new JFXTreeTableColumn<>("Process Name");
         
         /*set the predefined width of the column*/
-        pname.setPrefWidth(150);
+        pname.setPrefWidth(400);
         
         /* the below line make changes to the cell 
 		 * and also to determine what kind of data is displayed on the screen*/ 
@@ -71,45 +72,42 @@ public class FXMLProcessController implements Initializable {
         
         /*Add second column into the TreeTableview
     	 * memoryUsage field will appear on the screen.*/ 
-        JFXTreeTableColumn<Process, String> smemoryUsage = new JFXTreeTableColumn<>("memoryUsage");
-        smemoryUsage.setPrefWidth(150);
-        smemoryUsage.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<Process, String>, ObservableValue<String>>() {
-            @Override
-            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<Process, String> param) {
-                return param.getValue().getValue().memoryUsage;
-            }
-        });
-
+  
         
-        
-        ObservableList<Process> Processs = FXCollections.observableArrayList();
-        Processs.add(new Process("asdh", "23"));
-        Processs.add(new Process("asdh", "23"));
-        Processs.add(new Process("asdh", "23"));
-        Processs.add(new Process("asdh", "23"));
-        Processs.add(new Process("asdh", "23"));
-        
-
-        final TreeItem<Process> root = new RecursiveTreeItem<Process>(Processs, RecursiveTreeObject::getChildren);
-        //treeView.getColumns().setAll(pname, smemoryUsage);
-       // treeView.setRoot(root);
-        //treeView.setShowRoot(false);
-
-    }
-
-    /*The following class defines
-	 the properties/fields that will be displayed on the screen.*/
-    class Process extends RecursiveTreeObject<Process> {
-
-        StringProperty processName;
-        StringProperty memoryUsage;
+		ObservableList<Process> Processs = FXCollections.observableArrayList();
        
-
-        public Process(String processName, String memoryUsage) {
-            this.processName = new SimpleStringProperty(processName);
-            this.memoryUsage = new SimpleStringProperty(memoryUsage);
-            
+        ArrayList<String>processes=Test.processList();
+        
+        for(String s: processes)
+        {
+        	Processs.add(new Process(s,null));
         }
+       
+        final TreeItem<Process> root = new RecursiveTreeItem<Process>(Processs, RecursiveTreeObject::getChildren);
+        treeView.getColumns().setAll(pname);
+        treeView.setRoot(root);
+        treeView.setShowRoot(false);
+        treeView.getSelectionModel().select(0);
+        treeView.requestFocus();
 
     }
+    @FXML
+    private void focusOn()
+    {
+    	TreeItem<Process>t=treeView.getSelectionModel().getSelectedItem();
+    	if(t!=null)
+    	{	String tempString=t.getValue().processName.getValue();
+    		
+    		tempString=tempString.substring(tempString.lastIndexOf('-')+1).trim();
+    		
+    		Test.toForeground(tempString);
+    	}
+    	
+    }
+    @FXML
+    private void closeProcess()
+    {
+    	
+    }
+ 
 }

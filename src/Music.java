@@ -1,4 +1,4 @@
-
+package src;
 /**
  * Author: Rohit Negi CSE-B 4th year. Roll No: 130101144
  * email: rohit25.negi@gmail.com
@@ -43,6 +43,8 @@ import org.apache.tika.parser.Parser;
 import org.apache.tika.parser.mp3.Mp3Parser;
 import org.apache.tika.sax.BodyContentHandler;
 
+import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -81,9 +83,7 @@ class MusicOperation {
 																	// genre of
 																	// song
 
-				/* if no genre is found then take it as 'other' */
-				if (genere == null || genere.trim().isEmpty())
-					genere = "other";
+				System.out.println(i);
 
 				if (musicList.containsKey(genere)) {
 					musicList.get(genere).add(files[i].toString());
@@ -93,7 +93,9 @@ class MusicOperation {
 					musicList.put(genere, temp);
 				}
 			}
+			System.out.println("ye ho gya...... par dalna baki h");
 			out.writeObject(musicList);
+			System.out.println("daal bhi diya");
 			JOptionPane.showMessageDialog(null, "done");
 			out.close();
 			/*
@@ -308,7 +310,7 @@ class MusicOperation {
 	}
 }
 
-public class Music {
+public class Music extends RecursiveTreeObject<Music>{
 
 	File file;
 	StringProperty sTitle, sartist, slength, sgenre;
@@ -379,7 +381,7 @@ public class Music {
 		String artist = metadata.get("xmpDM:artist"); // extracting only the
 														// genre
 		if (artist == null)
-			artist = "Other";
+			artist = "None";
 		inputstream.close();
 		return artist;
 	}

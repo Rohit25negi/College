@@ -1,4 +1,4 @@
-
+package src;
 /**
  * AUTHOR: 
  * Name - ROhit Negi
@@ -98,8 +98,8 @@ public class Main {
 									 * to show all the process running which have
 									 * windows
 									 */
-									maincontrol.showProcesses();
-									maincontrol.repaint();
+//									maincontrol.showProcesses();
+//									maincontrol.repaint();
 									break;
 								case "close":
 									try {
@@ -116,8 +116,8 @@ public class Main {
 										/*
 										 * Focus on the select program
 										 */
-										Test.toForeground((String) maincontrol.content
-												.getValueAt(maincontrol.content.getSelectedRow(), 0));
+//										Test.toForeground((String) maincontrol.content
+//												.getValueAt(maincontrol.content.getSelectedRow(), 0));
 									} catch (Exception e) {
 
 									}
@@ -125,8 +125,8 @@ public class Main {
 								case "down":
 									try {
 										// to go down in the list of processes
-										int n = maincontrol.content.getSelectedRow();
-										maincontrol.content.setRowSelectionInterval(n + 1, n + 1);
+//										int n = maincontrol.content.getSelectedRow();
+//										maincontrol.content.setRowSelectionInterval(n + 1, n + 1);
 									} catch (Exception e) {
 
 									}
@@ -134,8 +134,8 @@ public class Main {
 								case "up":
 									try {
 										// to go up in the list of processes
-										int n = maincontrol.content.getSelectedRow();
-										maincontrol.content.setRowSelectionInterval(n - 1, n - 1);
+//										int n = maincontrol.content.getSelectedRow();
+//										maincontrol.content.setRowSelectionInterval(n - 1, n - 1);
 									} catch (Exception e) {
 
 									}
