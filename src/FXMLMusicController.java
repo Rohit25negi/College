@@ -57,6 +57,7 @@ public class FXMLMusicController implements Initializable {
 	
     @FXML
     private Label listSize;
+    
     JFXTreeTableColumn<Music, String> stitle,slength,sartist,sgenre;
     
     @FXML
@@ -218,6 +219,7 @@ public class FXMLMusicController implements Initializable {
 					try {
 
 						MusicOperation.player.play();
+						
 						System.out.println("called");
 						if (MusicOperation.player!=null&&MusicOperation.player.isComplete()) { // Checking if the music is
 													// completed or not

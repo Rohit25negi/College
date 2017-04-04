@@ -45,13 +45,13 @@ public class FXMLProcessController implements Initializable {
     private AnchorPane processanchorpane;
     @FXML
     private VBox processvbox;
-
+    JFXTreeTableColumn<Process, String> pname;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
     	
     	/*Add first column into the TreeTableview
     	 * Process Name field will appear on the screen.*/ 
-        JFXTreeTableColumn<Process, String> pname = new JFXTreeTableColumn<>("Process Name");
+       pname  = new JFXTreeTableColumn<>("Process Name");
         
         /*set the predefined width of the column*/
         pname.setPrefWidth(400);
@@ -108,6 +108,30 @@ public class FXMLProcessController implements Initializable {
     private void closeProcess()
     {
     	
+    	TreeItem<Process>t=treeView.getSelectionModel().getSelectedItem();
+    	if(t!=null)
+    	{	String tempString=t.getValue().processName.getValue();
+    		
+    		tempString=tempString.substring(tempString.lastIndexOf('-')+1).trim();
+    		
+    		Test.closeProcess(tempString);
+    	}
+    	
+    	ObservableList<Process> Processs = FXCollections.observableArrayList();
+        
+        ArrayList<String>processes=Test.processList();
+        
+        for(String s: processes)
+        {
+        	Processs.add(new Process(s,null));
+        }
+       
+        final TreeItem<Process> root = new RecursiveTreeItem<Process>(Processs, RecursiveTreeObject::getChildren);
+        treeView.getColumns().setAll(pname);
+        treeView.setRoot(root);
+        treeView.setShowRoot(false);
+        treeView.getSelectionModel().select(0);
+        treeView.requestFocus();
     }
  
 }

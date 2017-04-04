@@ -135,7 +135,14 @@ public class FXMLDocumentController extends Application implements Initializable
 								break;
 							}
 													
-							case "Text_Simplifier" : subanchorPane.setBackground(new Background(new BackgroundFill(Paint.valueOf("#C2185B"), CornerRadii.EMPTY,Insets.EMPTY )));
+							case "Text_Simplifier" : try{	
+								subanchorPane.setBackground(new Background(new BackgroundFill(Paint.valueOf("#FFFF"), CornerRadii.EMPTY,Insets.EMPTY )));
+								subanchorPane.getChildren().clear();	
+								subanchorPane.getChildren().add(FXMLLoader.load(getClass().getResource("TextSimplifier.fxml")));
+								}catch(Exception ex){
+									ex.printStackTrace();
+									
+								}
 													break;
 							case "Settings" : subanchorPane.setBackground(new Background(new BackgroundFill(Paint.valueOf("#4E342E"), CornerRadii.EMPTY,Insets.EMPTY )));
 													break;
