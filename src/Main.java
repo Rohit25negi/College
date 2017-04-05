@@ -111,31 +111,37 @@ public class Main {
 										e.printStackTrace();
 									}
 									break;
+								case "close this":
+									try {
+										// close the process which is in the focus
+										// currently
+										FXMLProcessController.var.closeProcess();
+
+									} catch (Exception e) {
+										
+									}
+									break;
 								case "focus":
 									try {
-										/*
-										 * Focus on the select program
-										 */
-//										Test.toForeground((String) maincontrol.content
-//												.getValueAt(maincontrol.content.getSelectedRow(), 0));
+										FXMLProcessController.var.focusOn();
 									} catch (Exception e) {
 
 									}
 									break;
 								case "down":
 									try {
-										// to go down in the list of processes
-//										int n = maincontrol.content.getSelectedRow();
-//										maincontrol.content.setRowSelectionInterval(n + 1, n + 1);
+										int sel=FXMLProcessController.var.treeView.getSelectionModel().getSelectedIndex();
+										FXMLProcessController.var.treeView.getSelectionModel().select(sel+1);
+										FXMLProcessController.var.treeView.requestFocus();
 									} catch (Exception e) {
 
 									}
 									break;
 								case "up":
 									try {
-										// to go up in the list of processes
-//										int n = maincontrol.content.getSelectedRow();
-//										maincontrol.content.setRowSelectionInterval(n - 1, n - 1);
+										int sel=FXMLProcessController.var.treeView.getSelectionModel().getSelectedIndex();
+										FXMLProcessController.var.treeView.getSelectionModel().select(sel-1);
+										FXMLProcessController.var.treeView.requestFocus();
 									} catch (Exception e) {
 
 									}

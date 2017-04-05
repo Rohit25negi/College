@@ -36,7 +36,7 @@ public class FXMLProcessController implements Initializable {
     @FXML
     private FlowPane main;
     @FXML
-    private JFXTreeTableView<Process> treeView;
+   JFXTreeTableView<Process> treeView;
     
     @FXML
     private AnchorPane processmain;
@@ -46,9 +46,11 @@ public class FXMLProcessController implements Initializable {
     @FXML
     private VBox processvbox;
     JFXTreeTableColumn<Process, String> pname;
+    
+    static FXMLProcessController var;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-    	
+    	var =this;
     	/*Add first column into the TreeTableview
     	 * Process Name field will appear on the screen.*/ 
        pname  = new JFXTreeTableColumn<>("Process Name");
@@ -92,7 +94,7 @@ public class FXMLProcessController implements Initializable {
 
     }
     @FXML
-    private void focusOn()
+    void focusOn()
     {
     	TreeItem<Process>t=treeView.getSelectionModel().getSelectedItem();
     	if(t!=null)
@@ -105,7 +107,7 @@ public class FXMLProcessController implements Initializable {
     	
     }
     @FXML
-    private void closeProcess()
+   void closeProcess()
     {
     	
     	TreeItem<Process>t=treeView.getSelectionModel().getSelectedItem();

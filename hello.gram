@@ -6,6 +6,6 @@
 
 grammar hello;
 public <name> =  minimize| focus| close| down| up| simplify ;
-public <greet> = (open | show| minimize) (my computer| my document | paint| sublime|processes| all)  ;
+public <greet> = (close | show| minimize) (my computer| this | paint| sublime|processes| all)  ;
 
 

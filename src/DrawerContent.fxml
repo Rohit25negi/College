@@ -33,11 +33,6 @@
             <Font size="16.0" />
          </font>
       </JFXButton>
-      <JFXButton accessibleText="Settings" buttonType="RAISED" layoutX="10.0" layoutY="238.0" prefHeight="51.0" prefWidth="192.0" styleClass="drawerbutton" text="Settings" textFill="#fffefe">
-         <font>
-            <Font size="16.0" />
-         </font>
-      </JFXButton>
       <JFXButton accessibleText="About" buttonType="RAISED" layoutX="10.0" layoutY="319.0" prefHeight="51.0" prefWidth="192.0" styleClass="drawerbutton" text="About" textFill="#fffefe">
          <font>
             <Font size="16.0" />
