@@ -24,7 +24,7 @@ public class TextSimplifier {
 		
 
 		try {
-			URL url = new URL("http://onlineword.esy.es/givewordnet.php");
+			URL url = new URL("https://transpersonal-speci.000webhostapp.com/givewordnet.php");
 			HttpURLConnection urlcon = (HttpURLConnection) url.openConnection();
 			urlcon.setRequestMethod("GET");
 			urlcon.connect();

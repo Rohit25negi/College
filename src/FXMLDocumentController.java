@@ -54,6 +54,10 @@ public class FXMLDocumentController extends Application implements Initializable
 
 	    @FXML
 		public JFXToggleButton audioInput;
+	
+	    @FXML
+	    private StackPane mystackPane;
+	    
 		@Override
 		public void start(Stage primaryStage) throws Exception {
 			// TODO Auto-generated method stub
@@ -144,9 +148,37 @@ public class FXMLDocumentController extends Application implements Initializable
 									
 								}
 													break;
-							case "Settings" : subanchorPane.setBackground(new Background(new BackgroundFill(Paint.valueOf("#4E342E"), CornerRadii.EMPTY,Insets.EMPTY )));
-													break;
+							
 							case "About" :{
+								drawer.close();
+								try{
+									
+								JFXDialogLayout content = new JFXDialogLayout();
+							    	content.setHeading(new Text ("ABDA - AI Based Desktop Assistant"));
+							    	content.setBody(new Text("ABDA is an artificial intelligent system designed to be a personal assistant for WINDOWS platform.\n" +
+							    							 "It is capable of doing computer tasks with voice commands. It enables user to use natural language \n"+
+							    				"to access applications such as file system. It also allows the user to get any piece of text simplified;\n all through a single user interface. \n"+
+							    				""));
+							    	content.setAlignment(Pos.CENTER);
+							    	JFXDialog dialog = new JFXDialog(mystackPane, content, JFXDialog.DialogTransition.CENTER);
+							    	Button button = new Button("Ok");
+							    	
+							    	button.setAlignment(Pos.CENTER);
+							    	button.setOnAction(new EventHandler<ActionEvent>() {
+							    		String regex ="[0-9]+";	
+										@Override
+										public void handle(ActionEvent event) {
+											
+												dialog.close();
+											
+										}
+									});
+							    	content.setActions(button);
+							    	dialog.show();
+								}catch(Exception ex){
+									ex.printStackTrace();
+									
+								}
 								
 											break;
 							}
