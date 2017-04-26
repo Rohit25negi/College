@@ -12,6 +12,8 @@ import edu.cmu.sphinx.recognizer.Recognizer;
 import edu.cmu.sphinx.result.Result;
 import edu.cmu.sphinx.util.props.ConfigurationManager;
 import edu.cmu.sphinx.util.props.PropertyException;
+import javafx.application.Platform;
+
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
@@ -93,11 +95,16 @@ public class Main {
 									/* TO minimize all the windows */
 									Test.minimizeAll();
 									break;
-								case "show processes":
+								case "process list":
 									/*
 									 * to show all the process running which have
 									 * windows
 									 */
+									Platform.runLater(new Runnable(){
+										public void run(){
+											FXMLDocumentController.var.processList();
+										}
+									});
 //									maincontrol.showProcesses();
 //									maincontrol.repaint();
 									break;
@@ -111,12 +118,13 @@ public class Main {
 										e.printStackTrace();
 									}
 									break;
-								case "close this":
+								case "kill":
 									try {
 										// close the process which is in the focus
 										// currently
-										FXMLProcessController.var.closeProcess();
-
+										Platform.runLater(new Runnable(){ 
+											public void run(){FXMLProcessController.var.closeProcess();}
+										});
 									} catch (Exception e) {
 										
 									}
@@ -128,7 +136,7 @@ public class Main {
 
 									}
 									break;
-								case "down":
+								case "next":
 									try {
 										int sel=FXMLProcessController.var.treeView.getSelectionModel().getSelectedIndex();
 										FXMLProcessController.var.treeView.getSelectionModel().select(sel+1);
@@ -137,13 +145,14 @@ public class Main {
 
 									}
 									break;
-								case "up":
+								case "previous":
 									try {
 										int sel=FXMLProcessController.var.treeView.getSelectionModel().getSelectedIndex();
-										FXMLProcessController.var.treeView.getSelectionModel().select(sel-1);
-										FXMLProcessController.var.treeView.requestFocus();
+										if(sel>=1)
+										{FXMLProcessController.var.treeView.getSelectionModel().select(sel-1);
+										FXMLProcessController.var.treeView.requestFocus();}
 									} catch (Exception e) {
-
+												
 									}
 									break;
 

@@ -220,7 +220,7 @@ public class FXMLMusicController implements Initializable {
 	}
 
 	public void play() { // play the music from staring of from middle.
-		if (MusicOperation.player != null)
+		if (MusicOperation.player != null||MusicOperation.files==null)
 			return;
 		try {
 			MusicOperation.fin = new FileInputStream(MusicOperation.files.get(MusicOperation.current));
