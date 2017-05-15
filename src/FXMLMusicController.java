@@ -262,7 +262,7 @@ public class FXMLMusicController implements Initializable {
 
 						MusicOperation.player.play();
 
-						System.out.println("called");
+						
 						if (MusicOperation.player != null && MusicOperation.player.isComplete()) { // Checking
 																									// if
 																									// the
@@ -288,7 +288,7 @@ public class FXMLMusicController implements Initializable {
 	
 	@FXML
 	public void pause() { // Pause the music
-		System.out.println("pause");
+		
 		if (MusicOperation.player == null)
 			return;
 		try {
@@ -382,7 +382,7 @@ public class FXMLMusicController implements Initializable {
 
 	@FXML
 	public void changeVolume() {
-		System.out.println("hello");
+		
 		try {
 			double vol = volume.getValue();
 			vol = 65535 * (vol / 100);

@@ -84,7 +84,7 @@ class MusicOperation {
 																	// genre of
 																	// song
 
-				System.out.println(i);
+//				System.out.println(i);
 
 				if (musicList.containsKey(genere)) {
 					musicList.get(genere).add(files[i].toString());
@@ -94,9 +94,9 @@ class MusicOperation {
 					musicList.put(genere, temp);
 				}
 			}
-			System.out.println("ye ho gya...... par dalna baki h");
+			
 			out.writeObject(musicList);
-			System.out.println("daal bhi diya");
+		
 			JOptionPane.showMessageDialog(null, "done");
 			out.close();
 			/*
@@ -200,7 +200,7 @@ class MusicOperation {
 
 			TreeMap<String, Integer> x;
 			int total = 0;
-			System.out.println(oin.available());
+			
 			while (true) {
 				try {
 					x = (TreeMap<String, Integer>) oin.readObject();
@@ -243,7 +243,7 @@ class MusicOperation {
 
 				songs = musicList.get(key);
 
-				System.out.println(key + ":" + percent.get(key) + ":" + total + ":" + count);
+//				System.out.println(key + ":" + percent.get(key) + ":" + total + ":" + count);
 
 				/* storing the 'count' number of songs of this type */
 				while (count-- != 0 && !songs.isEmpty())

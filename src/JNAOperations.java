@@ -77,7 +77,7 @@ public class JNAOperations {
 				if (wText.isEmpty()) {
 					return true;
 				}
-				System.out.println(name + ":::" + wText);
+//				System.out.println(name + ":::" + wText);
 				wText = wText.substring(wText.lastIndexOf('-') + 1).trim();
 				if (wText.equals(name)) {
 					user32.ShowWindow(hWnd, 9);
@@ -150,7 +150,7 @@ public class JNAOperations {
 					if (wText.isEmpty()) {
 						return true;
 					}
-					System.out.println(pName[0] + ":::" + wText);
+//					System.out.println(pName[0] + ":::" + wText);
 					wText = wText.substring(wText.lastIndexOf('-') + 1).trim();
 					if (wText.equals(pName[0])) {
 						com.sun.jna.platform.win32.User32.INSTANCE.PostMessage(hWnd, WinUser.WM_CLOSE, null, null);
@@ -225,7 +225,7 @@ public class JNAOperations {
 			for (int i = 0; i < list2.length; i++) {
 				list2[i][0] = list.get(i)[0];
 				list2[i][1] = list.get(i)[1];
-				System.out.println(list2[i][0] + ":" + list2[i][1]);
+//				System.out.println(list2[i][0] + ":" + list2[i][1]);
 			}
 
 			return list2;
