@@ -30,7 +30,7 @@ public class Component {
 	
 	 public void loadcomponents(){
 	    	try{
-				VBox box = FXMLLoader.load(getClass().getResource("DrawerContent.fxml"));			
+				VBox box = FXMLLoader.load(getClass().getResource("../UI/DrawerContent.fxml"));			
 				drawer.setSidePane(box);
 				//anchorPane.getChildren().add(FXMLLoader.load(getClass().getResource("LandingPage.fxml")));
 				for(Node node : box.getChildren()){

@@ -64,7 +64,7 @@ public class FXMLDocumentController extends Application implements Initializable
 	public void start(Stage primaryStage) throws Exception {
 		// TODO Auto-generated method stub
 		try {
-			Parent root = FXMLLoader.load(getClass().getResource("demo.fxml"));
+			Parent root = FXMLLoader.load(getClass().getResource("../UI/demo.fxml"));
 
 			// String css =
 			// Scale.class.getResource("application.css").toExternalForm();
@@ -90,7 +90,7 @@ public class FXMLDocumentController extends Application implements Initializable
 	public void initialize(URL url, ResourceBundle rb) {
 		try {
 			var =this;
-			VBox box = FXMLLoader.load(getClass().getResource("DrawerContent.fxml"));
+			VBox box = FXMLLoader.load(getClass().getResource("../UI/DrawerContent.fxml"));
 			drawer.setSidePane(box);
 			final HamburgerBackArrowBasicTransition burgerTask2 = new HamburgerBackArrowBasicTransition(hamburger);
 			burgerTask2.setRate(-1);
@@ -106,7 +106,7 @@ public class FXMLDocumentController extends Application implements Initializable
 				}
 
 			});
-			subanchorPane.getChildren().add(FXMLLoader.load(getClass().getResource("LandingPage.fxml")));
+			subanchorPane.getChildren().add(FXMLLoader.load(getClass().getResource("../UI/LandingPage.fxml")));
 			for (Node node : box.getChildren()) {
 				if (node.getAccessibleText() != null) {
 					node.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
@@ -128,7 +128,7 @@ public class FXMLDocumentController extends Application implements Initializable
 								burgerTask2.play();
 								subanchorPane.getChildren().clear();
 								subanchorPane.getChildren()
-										.add(FXMLLoader.load(getClass().getResource("MemoryUsageList.fxml")));
+										.add(FXMLLoader.load(getClass().getResource("../UI/MemoryUsageList.fxml")));
 							} catch (Exception processex) {
 								processex.printStackTrace();
 							}
@@ -143,7 +143,7 @@ public class FXMLDocumentController extends Application implements Initializable
 							try {
 								subanchorPane.getChildren().clear();
 								subanchorPane.getChildren()
-										.add(FXMLLoader.load(getClass().getResource("MusicPlayer.fxml")));
+										.add(FXMLLoader.load(getClass().getResource("../UI/MusicPlayer.fxml")));
 							} catch (Exception ex) {
 								ex.printStackTrace();
 
@@ -179,7 +179,7 @@ public class FXMLDocumentController extends Application implements Initializable
 										new BackgroundFill(Paint.valueOf("#FFFF"), CornerRadii.EMPTY, Insets.EMPTY)));
 								subanchorPane.getChildren().clear();
 								subanchorPane.getChildren()
-										.add(FXMLLoader.load(getClass().getResource("TextSimplifier.fxml")));
+										.add(FXMLLoader.load(getClass().getResource("../UI/TextSimplifier.fxml")));
 							} catch (Exception ex) {
 								ex.printStackTrace();
 
@@ -251,7 +251,7 @@ public class FXMLDocumentController extends Application implements Initializable
 		try {
 			subanchorPane.getChildren().clear();
 			subanchorPane.getChildren()
-					.add(FXMLLoader.load(getClass().getResource("ProcessList.fxml")));
+					.add(FXMLLoader.load(getClass().getResource("../UI/ProcessList.fxml")));
 		} catch (Exception processex) {
 			processex.printStackTrace();
 		}
