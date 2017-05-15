@@ -89,11 +89,11 @@ public class Main {
 								switch (resultText) {
 								case "minimize":
 									/* TO minimize the currently focused window */
-									Test.minimizeWindow();
+									JNAOperations.minimizeWindow();
 									break;
 								case "minimize all":
 									/* TO minimize all the windows */
-									Test.minimizeAll();
+									JNAOperations.minimizeAll();
 									break;
 								case "process list":
 									/*
@@ -112,7 +112,7 @@ public class Main {
 									try {
 										// close the process which is in the focus
 										// currently
-										Test.closeProcess();
+										JNAOperations.closeProcess();
 
 									} catch (Exception e) {
 										e.printStackTrace();

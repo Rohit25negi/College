@@ -78,7 +78,7 @@ public class FXMLProcessController implements Initializable {
         
 		ObservableList<Process> Processs = FXCollections.observableArrayList();
        
-        ArrayList<String>processes=Test.processList();
+        ArrayList<String>processes=JNAOperations.processList();
         
         for(String s: processes)
         {
@@ -102,7 +102,7 @@ public class FXMLProcessController implements Initializable {
     		
     		tempString=tempString.substring(tempString.lastIndexOf('-')+1).trim();
     		
-    		Test.toForeground(tempString);
+    		JNAOperations.toForeground(tempString);
     	}
     	
     }
@@ -116,12 +116,12 @@ public class FXMLProcessController implements Initializable {
     		
     		tempString=tempString.substring(tempString.lastIndexOf('-')+1).trim();
     		
-    		Test.closeProcess(tempString);
+    		JNAOperations.closeProcess(tempString);
     	}
     	
     	ObservableList<Process> Processs = FXCollections.observableArrayList();
         
-        ArrayList<String>processes=Test.processList();
+        ArrayList<String>processes=JNAOperations.processList();
         
         for(String s: processes)
         {

@@ -57,7 +57,7 @@ interface User32 extends StdCallLibrary {
 
 }
 
-public class Test {
+public class JNAOperations {
 
 	public static void toForeground(String name) {
 		final User32 user32 = User32.INSTANCE;

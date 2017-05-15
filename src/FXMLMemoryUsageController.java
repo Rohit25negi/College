@@ -84,7 +84,7 @@ public class FXMLMemoryUsageController implements Initializable {
         
         ObservableList<Process> Processs = FXCollections.observableArrayList();
  
-        String [][]memories=Test.showMemoryUseage();
+        String [][]memories=JNAOperations.showMemoryUseage();
         for(int i=0;i<memories.length;i++)
         {
         	Processs.add(new Process(memories[i][0],memories[i][1]));
