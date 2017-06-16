@@ -5,7 +5,7 @@
  */
 
 grammar hello;
-public <name> =  minimize| focus| close| simplify | open| previous|next|kill  ;
-public <greet> = (minimize|process) (all|list)  ;
+public <name> =  minimize| focus| close| down| up| simplify ;
+public <greet> = (close | show| minimize) (my computer| this | paint| sublime|processes| all)  ;
 
 
