@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTreeTableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:id="memoryusageanchorpane" prefHeight="557.0" prefWidth="613.0" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <JFXTreeTableView fx:id="treeView1" layoutX="50.0" layoutY="60.0" prefHeight="428.0" prefWidth="308.0" stylesheets="@mymusic.css" />
+      <JFXButton layoutX="405.0" layoutY="86.0" prefHeight="40.0" prefWidth="146.0" styleClass="processbutton" text="Show Processes" />
+      <JFXButton layoutX="406.0" layoutY="143.0" prefHeight="40.0" prefWidth="146.0" styleClass="processbutton" text="Up" />
+      <JFXButton layoutX="404.0" layoutY="201.0" prefHeight="40.0" prefWidth="146.0" styleClass="processbutton" text="Down" />
+      <JFXButton layoutX="404.0" layoutY="254.0" prefHeight="40.0" prefWidth="146.0" styleClass="processbutton" text="Focus" />
+      <JFXButton layoutX="404.0" layoutY="308.0" prefHeight="40.0" prefWidth="146.0" styleClass="processbutton" text="Close Process" />
+   </children>
+</AnchorPane>

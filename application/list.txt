@@ -1,4 +1,0 @@
-paint mspaint
-notepad notepad
-calculator calc
-explorer explorer
