@@ -13,6 +13,8 @@ import edu.cmu.sphinx.result.Result;
 import edu.cmu.sphinx.util.props.ConfigurationManager;
 import edu.cmu.sphinx.util.props.PropertyException;
 import javafx.application.Platform;
+import uicontrol.FXMLDocumentController;
+import uicontrol.FXMLProcessController;
 
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
@@ -30,7 +32,7 @@ import java.awt.Robot;
 
 public class Main {
 	/* On variable: used to check whether to detect the voice or not. Default=Off*/
-	static boolean On = false; 
+	public static boolean On = false; 
 	
 
 	public static void main(String[] args) {

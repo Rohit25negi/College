@@ -6,8 +6,8 @@ import javafx.beans.property.StringProperty;
 
 public class Process extends RecursiveTreeObject<Process> {
 
-    StringProperty processName;
-    StringProperty memory;
+    private StringProperty processName;
+    private StringProperty memory;
    
 
     public Process(String processName,String memory) {
@@ -15,6 +15,14 @@ public class Process extends RecursiveTreeObject<Process> {
         this.memory = new SimpleStringProperty(memory);
      
         
+    }
+    public StringProperty getMemory()
+    {
+    	return memory;
+    }
+    public StringProperty getProcessName()
+    {
+    	return processName;
     }
 
 }

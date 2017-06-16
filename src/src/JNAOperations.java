@@ -168,14 +168,14 @@ public class JNAOperations {
 
 	}
 
-	static void minimizeWindow() {
+	public static void minimizeWindow() {
 		User32 user32 = User32.INSTANCE;
 		HWND handle = user32.GetForegroundWindow();
 
 		user32.CloseWindow(handle);
 	}
 
-	static void minimizeAll() {
+	public static void minimizeAll() {
 
 		final User32 user32 = User32.INSTANCE;
 		// TreeMap<String,HWND> map=new TreeMap();
@@ -204,7 +204,7 @@ public class JNAOperations {
 
 	}
 
-	static String[][] showMemoryUseage() { // author Rohit Negi, Showing the
+	public static String[][] showMemoryUseage() { // author Rohit Negi, Showing the
 											// memory usage of every process
 											// using the window's tasklist.exe
 											// program
